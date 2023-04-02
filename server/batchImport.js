@@ -19,7 +19,7 @@ const batchImport = async () => {
     try {
         //connect to the client
     await client.connect();
-    const db = client.db("drinks");
+    const db = client.db("cocktails");
     const collection = db.collection('recipes');
 
     //fetch the data by searching each letter, insert the result into the database
@@ -29,11 +29,9 @@ const batchImport = async () => {
         const data = await response.json();
         const cocktails = data.drinks;
 
-        //coonditional rendering to avoid the null result
+        //conditional rendering to avoid the null result
         if(cocktails){
-            for (const cocktail of cocktails) {
-                await collection.insertOne(cocktail);
-            }
+            await collection.insertMany(cocktails);
         }
         
     }
