@@ -8,6 +8,28 @@ const options = {
     useUnifiedTopology: true,
 }
 
+//get random recipe
+const getRandomRecipe =async(req,res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+    try{
+        await client.connect();
+        const db = client.db("cocktails");
+
+        const result = await db.collection("recipes").aggregate([ { $sample: { size: 1 } } ]).toArray();
+
+        await client.close();
+
+        if(!result){
+            return res.status(400).json({status:400,massage:"idDrink not valid"})
+        }
+
+        return res.status(200).json({status:200,massage:"success",data:result[0]});
+    }
+    catch(err){
+        return res.status(400).json({status:400,massage:err})
+    }
+}
+
 //get single recipes detail
 const getSingleRecipe = async(req,res) =>{
     const client = new MongoClient(MONGO_URI,options);
@@ -70,4 +92,4 @@ const getAllNonAlcoholic = async(req,res) =>{
     }
     }
 
-module.exports = {getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe}
+module.exports = {getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe}

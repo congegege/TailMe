@@ -4,11 +4,13 @@ const app = express()
 const port = 3000
 
 //import handlers
-const {getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js")
+const {getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js")
 
 app.use(morgan("tiny"));
 
 //All the endpoints
+//fet random recipe
+app.get("/api/randomCocktail", getRandomRecipe)
 //get certain recipes by Id
 app.get("/api/cocktails/:id", getSingleRecipe);
 //get all the alcoholic recipes
