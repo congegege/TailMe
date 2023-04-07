@@ -24,7 +24,7 @@ const StarRating  = () =>{
             setHoverStar(index+1);
         }
     }
-    console.log(rating)
+    
     return (
         <>
         <p>Rate</p>

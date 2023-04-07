@@ -5,8 +5,11 @@ const port = 3000
 
 //import handlers
 const {getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js")
+const {postComment,getComments} = require("./handlers/commentHandler")
+
 
 app.use(morgan("tiny"));
+app.use(express.json())
 
 //All the endpoints
 //fet random recipe
@@ -17,6 +20,10 @@ app.get("/api/cocktails/:id", getSingleRecipe);
 app.get("/api/cocktails/alcoholic", getAllAlcoholic);
 //get all the Non-alcoholic recipes
 app.get("/api/cocktails/non_alcoholic", getAllNonAlcoholic);
+//get all the comments by recipes Id
+app.get("/api/comments/:id",getComments)
+//post the comment
+app.post("/api/comments", postComment)
 
 
 app.listen(port, () => {

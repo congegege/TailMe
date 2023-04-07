@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from "./StarRating";
+import PostComment from "./Comment";
+
 
 const RecipesDetail = () =>{
     //to store the drink id so that we can fetch the info by id
@@ -46,6 +48,8 @@ const RecipesDetail = () =>{
         })}
 
         <StarRating/>
+        <PostComment id={id}/>
+        
         
         </>
     )
