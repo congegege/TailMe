@@ -54,6 +54,47 @@ const getSingleRecipe = async(req,res) =>{
     }
 }
 
+//get category list
+const getCategory = async(req, res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+
+    try{
+        await client.connect();
+        const db = client.db("cocktails");
+
+        const result = await db.collection("recipes").distinct("strCategory")
+
+        await client.close();
+
+        return res.status(200).json({status:200,massage:"success",data:result});
+    }
+    catch(err){
+    return res.status(400).json({status:400,massage:err})
+    }
+}
+
+// get the recipes by certain category
+const getCategoryRecipe = async(req,res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+    const {category} = req.query;
+    console.log(req.query)
+
+    try{
+        await client.connect();
+        const db = client.db("cocktails");
+
+        const result = await db.collection("recipes").find(req.query).toArray();
+
+        await client.close();
+
+        return res.status(200).json({status:200,massage:"success",data:result});
+    }
+    catch(err){
+    return res.status(400).json({status:400,massage:err})
+    }
+}
+
+
 //get all the alcoholic recipes
 const getAllAlcoholic = async(req,res) =>{
     const client = new MongoClient(MONGO_URI,options);
@@ -92,4 +133,4 @@ const getAllNonAlcoholic = async(req,res) =>{
     }
     }
 
-module.exports = {getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe}
+module.exports = {getCategoryRecipe, getCategory,getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe}

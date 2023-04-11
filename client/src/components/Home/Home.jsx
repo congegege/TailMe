@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { Link  } from "react-router-dom";
+import CategoryList from "../Category/CategoryList";
 
 const Home = () =>{
     const [randomRecipe,setRandomRecipe] = useState(null);
@@ -12,11 +13,11 @@ const Home = () =>{
     
     return (
         <>
+        <CategoryList/>
         {randomRecipe &&
             <div>
                 <div>You might Like</div>
                 <Link to={`/recipes/${randomRecipe.idDrink}`}><img src={randomRecipe.strDrinkThumb}/></Link>
-                
             </div>}
         </>
     )
