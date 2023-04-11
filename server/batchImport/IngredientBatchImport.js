@@ -35,7 +35,7 @@ const ingredientBatchImport = async () => {
             //To match the pic url format
             let strIngredient = ingredientData.strIngredient;
             if(strIngredient.includes(" ")){
-                strIngredient = strIngredient.replaceAll(" ","&20")
+                strIngredient = strIngredient.replaceAll(" ","%20")
             }
             
             //database dont have the pic source, add it there
