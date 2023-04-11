@@ -14,7 +14,6 @@ const SideBar = () =>{
     const [isAlcoholicExpand,setIsAlcoholicExpand] = useState(false);
     
 
-
     const handleFirstFilter = (category) =>{
         if(searchParams.get("strCategory") == category){
             searchParams.delete("strCategory")
