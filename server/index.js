@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 //import handlers
-const {getRandomRecipe,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js")
+const {getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js")
 const {postComment,getComments} = require("./handlers/commentHandler")
 
 
@@ -16,6 +16,10 @@ app.use(express.json())
 app.get("/api/randomCocktail", getRandomRecipe)
 //get certain recipes by Id
 app.get("/api/cocktails/:id", getSingleRecipe);
+//get category list
+app.get("/api/categories", getCategory)
+//get recipe underneath certain category
+app.get("/api/categories/recipes", getCategoryRecipe)
 //get all the alcoholic recipes
 app.get("/api/cocktails/alcoholic", getAllAlcoholic);
 //get all the Non-alcoholic recipes
