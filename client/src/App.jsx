@@ -9,14 +9,15 @@ import CategoryResult from "./components/Category/CategoryResult";
 import { RecipesContext } from "./components/Context/RecipesContext";
 
 const App = () => {
-  const {categoryList,setCategoryList} = useContext(RecipesContext)
-    console.log(categoryList)
+  const {setCategoryList} = useContext(RecipesContext)
 
     useEffect(()=>{
         fetch("/api/categories")
         .then(res=>res.json())
         .then(resData=>setCategoryList(resData.data))
     },[])
+
+    
 
   return (
     <>
