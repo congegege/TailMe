@@ -6,7 +6,8 @@ const port = 3000
 //import handlers
 const {getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
 const {postComment,getComments} = require("./handlers/commentHandler");
-const {getIngredients} = require("./handlers/ingredientsHandler")
+const {getIngredients} = require("./handlers/ingredientsHandler");
+const {createUsers} = require("./handlers/userHandler")
 
 
 app.use(morgan("tiny"));
@@ -30,6 +31,9 @@ app.get("/api/cocktails/non_alcoholic", getAllNonAlcoholic);
 
 //for Ingredients
 app.get("/api/ingredients/:name",getIngredients)
+
+//for users
+app.post("/api/users",createUsers);
 
 //for comments
 //get all the comments by recipes Id
