@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link  } from "react-router-dom";
+import LoginButton from "../auth0/LoginButton";
+import LogoutButton from "../auth0/LogoutButton";
 import CategoryList from "../Category/CategoryList";
 
 const Home = () =>{
@@ -13,6 +15,8 @@ const Home = () =>{
     
     return (
         <>
+        <LoginButton/>
+        <LogoutButton/>
         <CategoryList/>
         {randomRecipe &&
             <div>
