@@ -1,29 +1,63 @@
 import { Star } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
-import styled from "styled-components"
+import { useEffect } from "react";
+import { useContext, useState } from "react";
+import styled from "styled-components";
+import { RecipesContext } from "../Context/RecipesContext";
 
 
-const StarRating  = () =>{
+const StarRating  = ({id}) =>{
     // create the array from 0 to 4
     const ratingStarsList = Array.from({length: 5}, (value, i) => i)
-    // to store the rate that user clicked on
-    const [rating,setRating] = useState(0);
     // to store the rate index that user hover on
     const [hoverStar, setHoverStar] = useState(0);
+    //to get the user Info
+    const {state,rating,setRating,averageRate,setAverageRate} = useContext(RecipesContext);
+
+    useEffect(()=>{
+        const rateHandler = async()=>{
+            try{
+                if(state){
+                    const {sub} = state.user
+                    const postResult = await fetch("/api/rate",{
+                        method:"POST",
+                        headers:{
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            id:id,rate:rating,sub:sub
+                        }),
+                    })
+                    const postRespond = await postResult.json();
+                    console.log(postRespond)
+                }
+        
+                    const result = await fetch(`/api/rateAverage/${id}`)
+                    const respond = await result.json();
+                    setAverageRate(respond.data)
+            }
+            catch(err){
+                console.log
+            }
+        }
+        rateHandler();
+    },[rating])
 
     //onclick function
-    const handleClick = (index) =>{
-        //when user click on the rate they selected everything will be reset
-        if(rating == index + 1){
-            setRating(0);
-            setHoverStar(0);
-        }
+    const handleClick = async(index) =>{
+            //when user click on the rate they selected everything will be reset
+            if(rating == index + 1){
+                setRating(0);
+                setHoverStar(0);
+            }
         //when user click on the new rate they wanna select, set both to index + 1(plus one cause its 0 to 4)
-        else{
-            setRating(index+1);
-            setHoverStar(index+1);
+            else{
+                setRating(index+1);
+                setHoverStar(index+1);
+            }
+
+            
         }
-    }
+    
     
     return (
         <>

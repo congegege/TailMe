@@ -21,7 +21,14 @@ return (
     <>
     <div>Comments</div>
     {commentList.map((comment ,  index)=>{
-        return <div key={index}>{comment}</div>
+        const{content,name,picture,date} = comment;
+        console.log(picture)
+        return <div key={index}>
+            <div>{content}</div>
+            <img src={picture}/>
+            <div>{name}</div>
+            <div>{date}</div>
+        </div>
     })}
     </>
 )

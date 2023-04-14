@@ -26,7 +26,16 @@ export const RecipesProvider = ({ children }) => {
 const[categoryList,setCategoryList] = useState(null);
 
 //store whether the filter is clicked
-const [isClicked,setIsClicked] = useState(false)
+const [isClicked,setIsClicked] = useState(false);
+
+// to store the rate that user clicked on
+const [rating,setRating] = useState(0);
+
+//to store the averageRate
+const [averageRate ,  setAverageRate] = useState(null);
+
+//to store the fetch result recipe info
+const [recipeInfo,setRecipeInfo] = useState(null);
 
 //reducer set up
 const [state, dispatch] = useReducer(reducer,initialState);
@@ -42,7 +51,7 @@ const userLogIn = (data) =>{
     <RecipesContext.Provider
       value={{
         state,actions:{userLogIn},
-        categoryList,setCategoryList,isClicked,setIsClicked
+        categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,recipeInfo,setRecipeInfo
       }}
     >
       {children}
