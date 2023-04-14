@@ -11,7 +11,7 @@ const LoginButton = () =>{
     
     useEffect(()=>{
         if(user){
-            const userData = {...user,updated_at:format(new Date(), "yyyy.MM.dd")};
+            const userData = {...user,updated_at:format(new Date(), "yyyy.MM.dd"),collection:[]};
             
 
             fetch("/api/users",{

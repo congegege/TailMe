@@ -1,3 +1,5 @@
+const { format } = require("date-fns");
+
 const {MongoClient} = require ("mongodb");
 
 require("dotenv").config();
@@ -23,6 +25,9 @@ try {
         return res.status(200).json({status:200,massage:"No review yet",data:null});
     }
 
+    
+
+    client.close();
     return res.status(200).json({status:200,massage:"success",data:result.comment});
 }
 
@@ -34,9 +39,10 @@ catch(err){
 //post the comment
 const postComment = async (req , res) =>{
 const client = new MongoClient(MONGO_URI,options);
-const {id , comment} = req.body;
+const {id , comment , name , picture, sub} = req.body;
+const date = format(new Date(), "yyyy.MM.dd");
 const query = {id:id}
-const updateValue = {$push : {"comment" : comment}} 
+const updateValue = {$push : {"comment":{sub:sub,content:comment,name:name,picture:picture,date:date}}} 
 
 try{
     await client.connect();
@@ -45,7 +51,7 @@ try{
     const result = await db.collection("reviews").findOne({id})
 
     if(!result){
-        await db.collection("reviews").insertOne({id:id,"comment":[comment]})
+        await db.collection("reviews").insertOne({id:id,"comment":[{sub:sub,content:comment,name:name,picture:picture,date:date}]})
     }
     else{
         await db.collection("reviews").updateOne(query,updateValue)

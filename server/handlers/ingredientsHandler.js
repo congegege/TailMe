@@ -23,6 +23,7 @@ try {
         return res.status(400).json({status:200,massage:"invalid ingredient name",data:null});
     }
 
+    client.close();
     return res.status(200).json({status:200,massage:"success",data:result});
 }
 

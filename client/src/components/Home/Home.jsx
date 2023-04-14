@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link  } from "react-router-dom";
-import LoginButton from "../auth0/LoginButton";
-import LogoutButton from "../auth0/LogoutButton";
 import CategoryList from "../Category/CategoryList";
+import Header from "../Header/Header"
 
 const Home = () =>{
     const [randomRecipe,setRandomRecipe] = useState(null);
@@ -11,12 +10,10 @@ const Home = () =>{
         .then(res=>res.json())
         .then(resData=>setRandomRecipe(resData.data))
     },[])
-    console.log(randomRecipe)
     
     return (
         <>
-        <LoginButton/>
-        <LogoutButton/>
+        <Header/>
         <CategoryList/>
         {randomRecipe &&
             <div>
