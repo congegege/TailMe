@@ -34,9 +34,6 @@ const [rating,setRating] = useState(0);
 //to store the averageRate
 const [averageRate ,  setAverageRate] = useState(null);
 
-//to store the fetch result recipe info
-const [recipeInfo,setRecipeInfo] = useState(null);
-
 //reducer set up
 const [state, dispatch] = useReducer(reducer,initialState);
 
@@ -51,7 +48,7 @@ const userLogIn = (data) =>{
     <RecipesContext.Provider
       value={{
         state,actions:{userLogIn},
-        categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,recipeInfo,setRecipeInfo
+        categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,
       }}
     >
       {children}

@@ -1,10 +1,9 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from "./StarRating";
 import PostComment from "./Comment";
 import AverageRate from "./AverageRate";
 import CollectButton from "./CollectButton";
-import { RecipesContext } from "../Context/RecipesContext";
 
 
 const RecipesDetail = () =>{
@@ -13,7 +12,7 @@ const RecipesDetail = () =>{
     //maximum 15 ingredients created the array from 1 to 15 so that we can map through the list
     const ingredientsList = Array.from({length: 15}, (value, i) => i + 1)
     //to store the recipeInfo
-    const {recipeInfo,setRecipeInfo} = useContext(RecipesContext);
+    const [recipeInfo,setRecipeInfo] = useState(null);
 
     //fetch the data bt id
     useEffect(()=>{
@@ -51,7 +50,7 @@ const RecipesDetail = () =>{
             }
         })}
 
-        <CollectButton id={id}/>
+        <CollectButton id={id} recipeInfo={recipeInfo}/>
 
         <StarRating id={id}/>
         <PostComment id={id}/>
