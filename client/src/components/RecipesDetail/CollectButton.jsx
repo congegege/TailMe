@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 
-const CollectButton = ({id}) =>{
+const CollectButton = ({id,recipeInfo}) =>{
 
     //to get the user info
-    const {state,recipeInfo} = useContext(RecipesContext);
+    const {state} = useContext(RecipesContext);
 
     
     const handleClick = () =>{

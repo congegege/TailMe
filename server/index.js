@@ -7,7 +7,7 @@ const port = 3000
 const {getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
 const {postComment,getComments} = require("./handlers/commentHandler");
 const {getIngredients} = require("./handlers/ingredientsHandler");
-const {createUsers} = require("./handlers/userHandler");
+const {getUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage} = require("./handlers/rateHandler");
 const {postCollection, getCollections} = require("./handlers/collectionHandler");
 
@@ -46,8 +46,8 @@ app.get("/api/comments/:id",getComments);
 //post the comment
 app.post("/api/comments", postComment);
 
-//for users
-app.post("/api/users",createUsers);
+//get users info
+app.get("/api/users/:sub",getUsers);
 
 //for collection
 //get the collection that user added

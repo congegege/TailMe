@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 import Collection from "./Collection";
+import { format } from "date-fns";
 
 const Profile = () =>{
     const {state} = useContext(RecipesContext);
@@ -11,7 +12,7 @@ const Profile = () =>{
         <img src={picture}/>
         <div>{name}</div>
         <div>{email}</div>
-        <div>{updated_at}</div>
+        <div>{format(new Date(updated_at), "yyyy.MM.dd")}</div>
         <Collection sub={sub}/>
         </>
     )

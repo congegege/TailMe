@@ -8,9 +8,11 @@ import { useEffect , useContext } from "react";
 import CategoryResult from "./components/Category/CategoryResult";
 import { RecipesContext } from "./components/Context/RecipesContext";
 import Profile from "./components/Profile/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
-  const {setCategoryList} = useContext(RecipesContext)
+  const {setCategoryList,actions:{userLogIn}} = useContext(RecipesContext);
+  const { user } = useAuth0();
 
     useEffect(()=>{
         fetch("/api/categories")
@@ -18,7 +20,13 @@ const App = () => {
         .then(resData=>setCategoryList(resData.data))
     },[])
 
-    
+    useEffect(()=>{
+      if(user){
+        fetch(`/api/users/${user.sub}`)
+        .then(res=>res.json())
+        .then(resData=>userLogIn(resData.data))
+      }
+    },[user])
 
   return (
     <>
