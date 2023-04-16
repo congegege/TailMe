@@ -11,8 +11,14 @@ import Profile from "./components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
-  const {setCategoryList,actions:{userLogIn}} = useContext(RecipesContext);
+  const {setCategoryList,setRecipesList,actions:{userLogIn}} = useContext(RecipesContext);
   const { user } = useAuth0();
+  
+    useEffect(()=>{
+      fetch("/api/recipes")
+      .then(res=>res.json())
+      .then(resData=>setRecipesList(resData.data))
+    },[])
 
     useEffect(()=>{
         fetch("/api/categories")

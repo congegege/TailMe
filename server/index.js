@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 //import handlers
-const {getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
+const {getAllRecipes,getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
 const {postComment,getComments} = require("./handlers/commentHandler");
 const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
@@ -18,7 +18,9 @@ app.use(express.json())
 //All the endpoints
 
 //for recipes
-//fet random recipe
+//get all recipes
+app.get("/api/recipes", getAllRecipes)
+//get random recipe
 app.get("/api/randomCocktail", getRandomRecipe)
 //get certain recipes by Id
 app.get("/api/cocktails/:id", getSingleRecipe);
@@ -26,12 +28,12 @@ app.get("/api/cocktails/:id", getSingleRecipe);
 app.get("/api/categories", getCategory)
 //get recipe underneath certain category
 app.get("/api/categories/recipes", getCategoryRecipe)
-//get all the alcoholic recipes
+//get all the alcoholic recipes no
 app.get("/api/cocktails/alcoholic", getAllAlcoholic);
-//get all the Non-alcoholic recipes
+//get all the Non-alcoholic recipes no
 app.get("/api/cocktails/non_alcoholic", getAllNonAlcoholic);
 
-//for Ingredients
+//for Ingredients no
 app.get("/api/ingredients/:name",getIngredients);
 
 //for rating
