@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { RecipesContext } from "../Context/RecipesContext";
 import styled, { css, keyframes } from 'styled-components';
 import {CaretDown} from "@phosphor-icons/react";
+import SearchBar from "./SearchBar";
 
 const SideBar = () =>{
     const {categoryList,isClicked,setIsClicked} = useContext(RecipesContext)
@@ -59,6 +60,8 @@ const SideBar = () =>{
         <>
         {isClicked && <GrayOut></GrayOut>}
         {isClicked && <SideBarSection ref={sideBarRef}>
+        <SearchBar/>
+        <CategorySection>
         <div>
         <div>
             <CategoryTitle onClick={()=>setIsCategoryExpand(!isCategoryExpand)}>CATEGORY<Icon isExpand={isCategoryExpand}><CaretDown/></Icon></CategoryTitle>
@@ -78,6 +81,8 @@ const SideBar = () =>{
         </div>
         </div>
         <ClearButton onClick={handleClearFilter}>Clear All</ClearButton>
+        </CategorySection>
+        
         </SideBarSection>}
         </>
     )
@@ -116,17 +121,24 @@ const sideIn = keyframes`
 const SideBarSection = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: fixed;
     right: 20px;
-    top: 20px;
+    top: 50px;
     bottom: 20px;
-    width: 30%;
+    width: 28%;
     animation:${sideIn} 0.2s ease-in 1 forwards;
-    background-color: white;
     height: 90vh;
-    border-radius: 20px;
     z-index: 2;
+`
+
+const CategorySection = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 15px;
+    z-index: 2;
+    height: 90vh;
 `
 
 const CategoryButton = styled.button`
@@ -151,6 +163,9 @@ font-size: 20px;
 font-family: var(--font-category-heading);
 display: flex;
 justify-content: space-between;
+&:hover{
+    cursor: pointer;
+}
 `
 
 const ClearButton = styled.button`

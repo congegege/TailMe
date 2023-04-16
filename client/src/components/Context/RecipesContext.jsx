@@ -22,6 +22,9 @@ const reducer = (state, action) =>{
 }
 
 export const RecipesProvider = ({ children }) => {
+//store all the recipes
+const [recipesList, setRecipesList] = useState(null);
+
 //store all the items fetch from "/home"
 const[categoryList,setCategoryList] = useState(null);
 
@@ -48,7 +51,7 @@ const userLogIn = (data) =>{
     <RecipesContext.Provider
       value={{
         state,actions:{userLogIn},
-        categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,
+        recipesList, setRecipesList,categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,
       }}
     >
       {children}
