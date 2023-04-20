@@ -51,7 +51,11 @@ const userLogIn = (data) =>{
     <RecipesContext.Provider
       value={{
         state,actions:{userLogIn},
-        recipesList, setRecipesList,categoryList,setCategoryList,isClicked,setIsClicked,rating,setRating,averageRate,setAverageRate,
+        recipesList, setRecipesList,
+        categoryList,setCategoryList,
+        isClicked,setIsClicked,
+        rating,setRating,
+        averageRate,setAverageRate,
       }}
     >
       {children}

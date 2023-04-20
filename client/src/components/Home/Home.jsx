@@ -14,6 +14,7 @@ const Home = () =>{
     return (
         <>
         <Header/>
+        <Link to={"/community"}>Community</Link>
         <CategoryList/>
         {randomRecipe &&
             <div>

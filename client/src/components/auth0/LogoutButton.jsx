@@ -13,7 +13,7 @@ const LogoutButton = () =>{
         <button onClick={()=>logout()}>
             Log Out
         </button>
-        <Link to={`/Profile/${state.user.sub}`}><button>Profile</button></Link>
+        <Link to={`/profile/${state.user.sub}`}><button>Profile</button></Link>
         </>
     )  
 }
