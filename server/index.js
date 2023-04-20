@@ -10,10 +10,11 @@ const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage} = require("./handlers/rateHandler");
 const {postCollection, getCollections} = require("./handlers/collectionHandler");
-
+const {createPost, getAllPosts} =  require("./handlers/communityHandler")
 
 app.use(morgan("tiny"));
-app.use(express.json())
+app.use(express.json({limit: '50mb'}));
+
 
 //All the endpoints
 
@@ -56,6 +57,10 @@ app.get("/api/users/:sub",getUsers);
 app.get("/api/users/collections/:sub",getCollections);
 //add the drink into the collection list
 app.post("/api/users/collections",postCollection);
+
+//for community
+app.get("/api/community/posts", getAllPosts)
+app.post("/api/community", createPost)
 
 
 app.listen(port, () => {

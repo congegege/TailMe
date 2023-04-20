@@ -10,8 +10,6 @@ const SearchBar = () =>{
     //to store the user input in the search bar
     const [userQuery , setUserQuery] = useState ("");
 
-    const [isClicked , setIsClicked] = useState(false);
-
     const searchBarRef = useRef();
 
     //when user start to type
