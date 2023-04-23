@@ -36,6 +36,30 @@ catch(err){
 }
 }
 
+
+const getSinglePost = async(req,res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+    const id = req.params.id;
+
+    try{
+        await client.connect();
+        const db = client.db("cocktails");
+
+        const result = await db.collection("community").findOne({id:id});
+
+        await client.close();
+
+        if(!result){
+            return res.status(400).json({status:400,massage:"id not valid"})
+        }
+
+        return res.status(200).json({status:200,massage:"success",data:result});
+    }
+    catch(err){
+        return res.status(400).json({status:400,massage:err})
+    }
+}
+
 //creat the post
 const createPost = async (req , res) =>{
 const client = new MongoClient(MONGO_URI,options);
@@ -62,4 +86,5 @@ catch (err) {
 }
 
 
-module.exports = {createPost,getAllPosts}
+
+module.exports = {createPost,getAllPosts,getSinglePost}

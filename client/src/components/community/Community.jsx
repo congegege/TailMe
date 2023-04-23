@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { useContext } from 'react';
+import { useEffect , useContext } from 'react';
+import { Link  } from "react-router-dom";
 import { CommunityContext } from '../Context/CommunityContext';
 import PostForm from './PostForm';
+import UserSideBar from './UserSideBar';
 
 
 const Community = () =>{
-    const {state, allPostsList , setAllPostsList, isClick , setIsClick} = useContext(CommunityContext);
-    console.log(state)
+    const {communityState, allPostsList , setAllPostsList, isClick , setIsClick} = useContext(CommunityContext);
 
     useEffect(()=>{
         fetch("/api/community/posts")
         .then(res=>res.json())
         .then(resData=>setAllPostsList(resData.data))
-    },[state.status])
+    },[communityState.status])
 
     return (
         <>
-        <button onClick={()=>{setIsClick(true)}}>Post</button>
+        <UserSideBar/>
         {allPostsList && allPostsList.map((post)=>{
             return(
-                <div key={post.id}>
+                <Link to={`/community/${post.id}`} key={post.id}>
+                <div>{post.strDrink}</div>
                 <img src={post.img}/>
-                </div>
+                </Link>
             )
         })}
         {isClick &&<PostForm/>}

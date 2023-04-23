@@ -46,6 +46,24 @@ button {
   cursor: pointer;
 }
 
+.ql-toolbar.ql-snow {
+border:none;
+text-align: center;
+margin-top: 10px;
+}
+
+.ql-container.ql-snow {
+margin:0 5%;
+border: none;
+font-family: 'Architects Daughter', cursive;
+font-size: 20px;
+}
+
+
+
+
+
+
 
 @media (prefers-color-scheme: light) {
   :root {

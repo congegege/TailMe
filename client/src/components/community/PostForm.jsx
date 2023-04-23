@@ -1,15 +1,19 @@
 import TextEditor from "./TextEditor";
-import React, { useContext } from 'react';
+import React, { useContext} from 'react';
 import PictureUpload from "./PictureUpload";
 import { RecipesContext } from '../Context/RecipesContext';
 import { CommunityContext } from "../Context/CommunityContext";
 import styled from "styled-components"
 import BasicDrinkInfo from "./BasicDrinkInfo";
+import { useRef , useEffect } from "react";
+import LoadingButton from "../Loading/LoadingButton";
+import StepBar from "./StepBar";
 
 const PostForm = () =>{
-    const {state} = useContext(RecipesContext)
-    const { actions:{createPost}, currentPage , setCurrentPage , formData , setIsClick} = useContext(CommunityContext);
-    const {img} = formData
+    const {state } = useContext(RecipesContext);
+    const {communityState, actions:{createPost , submitPost}, currentPage , setCurrentPage , formData , isClick , setIsClick} = useContext(CommunityContext);
+    const postFormRef = useRef();
+    const {img} = formData;
 
     const formPagesList = [
         <BasicDrinkInfo/>,
@@ -17,8 +21,10 @@ const PostForm = () =>{
         <PictureUpload/>,
     ];
 
+    console.log(communityState)
     const handleSubmit = (event) =>{
         event.preventDefault();
+        submitPost()
 
         console.log({"sub":state.sub})
         fetch("/api/community",{
@@ -27,23 +33,43 @@ const PostForm = () =>{
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                sub:state.user.sub, ...formData
+                sub:state.user.sub, userPicture:state.user.picture,...formData
             }),
         })
         .then((res)=>res.json())
         .then((resData)=>{
             createPost(resData.data);
             setIsClick(false);
-            setCurrent
+            setCurrentPage(0);
         })
     }
 
+    useEffect(()=>{
+        let closeSideBarHandler = (ev) =>{
+            if(postFormRef.current && !postFormRef.current.contains(ev.target)){
+                setIsClick(false);
+            }
+        }
+        document.addEventListener("mousedown", closeSideBarHandler)
+
+        return()=>{
+            document.removeEventListener("mousedown", closeSideBarHandler)
+        }
+    })
+
     return (
+        
         <Container>
-        <FormWrapper onSubmit={handleSubmit}>
-            {formPagesList[currentPage]}
-            {currentPage == formPagesList.length - 1 && <button disabled={img.length == 0 || img.length == 0 ? true :  false}>submit</button>}
-        </FormWrapper>
+            <Form ref={postFormRef}>
+                <StepBar />
+                <FormWrapper onSubmit={handleSubmit} >
+                    {formPagesList[currentPage]}
+                    {communityState.status !== "submit-post"?
+                    currentPage == formPagesList.length - 1 &&
+                    <Submit disabled={img.length == 0 || img.length == 0 ? true :  false} >submit</Submit>
+                    :<LoadingButton/>}
+                </FormWrapper>
+            </Form>
         </Container>
     )
     
@@ -58,14 +84,44 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    background-color: rgb(31,31,31,0.8);
+    z-index: 1;
+`
+
+const Form = styled.div`
+    width: 45%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const FormWrapper = styled.form`
-    background-color: #b3bcb2;
-    border-radius: 30px;
-    width: 40%;
-    height: 60%;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor:auto;
+    clip-path: polygon(30px 0,
+            calc(100% - 30px) 0,
+            100% 30px,
+            100% calc(100% - 30px),
+            calc(100% - 30px) 100%,
+            0px 100%,
+            0 calc(100% - 30px),
+            0 0px);
+    background-color: rgb(179, 188, 178,0.9);
+    z-index: 5;
     
+`
+
+const Submit = styled.button`
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    background-color: transparent;
+    font-size: 20px;
+    font-family: var(--font-category-heading);
 `
 
 export default PostForm;

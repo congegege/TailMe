@@ -9,8 +9,8 @@ const {postComment,getComments} = require("./handlers/commentHandler");
 const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage} = require("./handlers/rateHandler");
-const {postCollection, getCollections} = require("./handlers/collectionHandler");
-const {createPost, getAllPosts} =  require("./handlers/communityHandler")
+const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
+const {createPost, getAllPosts, getSinglePost} =  require("./handlers/communityHandler")
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -55,12 +55,19 @@ app.get("/api/users/:sub",getUsers);
 //for collection
 //get the collection that user added
 app.get("/api/users/collections/:sub",getCollections);
+//get the community collection that user added
+app.get("/api/users/communityCollections/:sub",getCommunityCollections);
 //add the drink into the collection list
 app.post("/api/users/collections",postCollection);
+//add the community post into the collection list
+app.post("/api/users/communityCollections",  postCommunityCollection);
 
 //for community
-app.get("/api/community/posts", getAllPosts)
-app.post("/api/community", createPost)
+app.get("/api/community/posts", getAllPosts);
+app.get("/api/community/posts/:id", getSinglePost);
+app.post("/api/community", createPost);
+
+
 
 
 app.listen(port, () => {

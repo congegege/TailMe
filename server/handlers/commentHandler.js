@@ -65,5 +65,4 @@ catch (err) {
 }
 }
 
-
 module.exports = {postComment,getComments}

@@ -2,41 +2,58 @@ import React, { useContext } from 'react';
 import { CommunityContext } from "../Context/CommunityContext";
 import styled from "styled-components"
 import { useState } from 'react';
+import {ArrowRight , Check} from "@phosphor-icons/react";
 
 const BasicDrinkInfo = () =>{
     const { currentPage , setCurrentPage , formData , setFormData} = useContext(CommunityContext);
     const{strDrink , strAlcoholic} = formData;
     const [isNextClicked , setIsNextClicked] =  useState(false)
 
-    
-    console.log(formData, isNextClicked)
     return (
         <Wrapper>
             <InputContainer>
                 <div>
-                    <label htmlFor="name">Drink name</label>
-                    <input type="text" id="name" defaultValue={strDrink} onChange={(ev)=>{setFormData({...formData,"strDrink": ev.target.value})}}/>
+                    <DrinkNameInput
+                    placeholder='Drink Name...'
+                    type="text" 
+                    id="name" 
+                    defaultValue={strDrink}
+                    onChange={(ev)=>{setFormData({...formData,"strDrink": ev.target.value})}}
+                    />
                 </div>
                 <CategorySection>
-                    <Category onClick={()=>{setFormData({...formData,"strAlcoholic": "Alcoholic"})}}>
+
+                    <Category isClicked={formData.strAlcoholic =="Alcoholic" ? true : false} onClick={()=>{setFormData({...formData,"strAlcoholic": "Alcoholic"})}}>
+                    {formData.strAlcoholic =="Alcoholic" && <CheckButton><Check weight='light'/></CheckButton>}
                         <TopLeft>Alcoholic</TopLeft>
-                        <CategoryPicture src='https://res.cloudinary.com/dgy6nwt6m/image/upload/v1681964713/beverage_sokn7c.png'/>
+                        <CategoryPicture src='https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682203211/margarita_nkd0fh.png'/>
                         <BottomRight>Alcoholic</BottomRight>
                     </Category>
-                    <Category onClick={()=>{setFormData({...formData,"strAlcoholic": "NonAlcoholic"})}}>
+                    
+                    <Category isClicked={formData.strAlcoholic =="NonAlcoholic" ? true : false} onClick={()=>{setFormData({...formData,"strAlcoholic": "NonAlcoholic"})}}>
+                    {formData.strAlcoholic =="NonAlcoholic" && <CheckButton><Check weight='light'/></CheckButton>}
                         <TopLeft>Non Alcoholic</TopLeft>
-                        <CategoryPicture src='https://res.cloudinary.com/dgy6nwt6m/image/upload/v1681964577/non-alcoholic-beer_pvnbam.png' />
+                        <CategoryPicture src='https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682203199/non-alcoholic_vymeuh.png' />
                         <BottomRight>Non Alcoholic</BottomRight>
                     </Category>
                 
                 </CategorySection>
             
             </InputContainer>
-            <button onClick={()=>{setCurrentPage(currentPage + 1);setIsNextClicked(true)}} disabled={strDrink.length == 0 || strAlcoholic.length == 0 ? true :  false}>Next</button>
+            <Next type='button' onClick={()=>{setCurrentPage(currentPage + 1);setIsNextClicked(true)}} disabled={strDrink.length == 0 || strAlcoholic.length == 0 ? true :  false}><ArrowRight/></Next>
         </Wrapper>
     )
     
 }
+
+const CheckButton = styled.div`
+    position:absolute;
+    top: 2%;
+    right: 3%;
+    color: #698695;
+    font-size: 30px;
+    margin-left: 10%;
+`
 
 const Wrapper = styled.div`
     height: 100%;
@@ -55,6 +72,15 @@ const InputContainer = styled.div`
     gap: 20%;
 `
 
+const DrinkNameInput = styled.input`
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 45px;
+    text-align: center;
+    font-family: "Comic Neue";
+`
+
 const CategorySection = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 200px);
@@ -63,6 +89,7 @@ const CategorySection = styled.div`
 `
 
 const Category = styled.div`
+    position: relative;
     display: grid;
     grid-template-rows: 1fr 2fr 1fr;
     grid-gap: 2em;
@@ -71,10 +98,9 @@ const Category = styled.div`
     font-size: 1.2em;
     padding: 10px;
     border-radius: 5%;
-    box-shadow: 0px 5px 15px grey;
+    box-shadow: ${props => props.isClicked ? "0px 5px 15px #e9edc9" : "0px 5px 15px grey"};
     &:hover{
-        cursor: pointer;
-        box-shadow:0px 5px 15px #e9edc9 ;
+        cursor: pointer; 
     }
 `
 
@@ -87,11 +113,34 @@ const CategoryPicture = styled.img`
 
 const TopLeft = styled.div`
     padding: 0.1em;
+    -webkit-text-stroke-color: #ccd5ae;
+    -webkit-text-stroke-width: 0.9px;
+    background-color: #e9edc9;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-family: var(--font-category-heading)
 `
 
 const BottomRight = styled.div`
     align-self: end;
     transform: rotate(180deg);
+    -webkit-text-stroke-color: #4d536e;
+    -webkit-text-stroke-width: 0.9px;
+    background-color: #84a98c;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-family: var(--font-category-heading)
+`
+
+const Next = styled.button`
+    margin: 20px;
+    background-color: transparent;
+    font-size: 25px;
+    &:hover{
+        cursor: pointer;
+    }
 `
 
 export default BasicDrinkInfo;
