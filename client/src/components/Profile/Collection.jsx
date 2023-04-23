@@ -3,6 +3,7 @@ import { Link  } from "react-router-dom";
 
 const Collection = ({sub}) =>{
     const[collectionList,setCollectionList] = useState(null);
+    const[communityCollectionList,setCommunityCollectionList] = useState(null);
 
     useEffect(()=>{
         fetch(`/api/users/collections/${sub}`)
@@ -10,7 +11,13 @@ const Collection = ({sub}) =>{
         .then(resData=>setCollectionList(resData.data))
     },[])
 
-    if(!collectionList){
+    useEffect(()=>{
+        fetch(`/api/users/communityCollections/${sub}`)
+        .then(res=>res.json())
+        .then(resData=>setCommunityCollectionList(resData.data))
+    },[])
+
+    if(!collectionList || !communityCollectionList){
         return <>Loading</>
     }
 
@@ -21,6 +28,15 @@ const Collection = ({sub}) =>{
                 <Link key={collection.id} to={`/recipes/${collection.id}`}>
                 <div>{collection.strDrink}</div>
                 <img src={collection.strDrinkThumb}/>
+                </Link>
+            ) 
+        })}
+        {communityCollectionList.map((communityCollection)=>{
+            const {id,strDrink,img} = communityCollection
+            return (
+                <Link key={id} to={`/community/${id}`}>
+                <div>{strDrink}</div>
+                <img src={img}/>
                 </Link>
             ) 
         })}

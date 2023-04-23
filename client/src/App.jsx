@@ -9,7 +9,8 @@ import CategoryResult from "./components/Category/CategoryResult";
 import { RecipesContext } from "./components/Context/RecipesContext";
 import Profile from "./components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
-import Community from "./components/community/Community";
+import Community from "./components/Community/Community";
+import PostDetail from "./components/Community/PostDetail/PostDetail";
 
 const App = () => {
   const {setCategoryList,setRecipesList,actions:{userLogIn}} = useContext(RecipesContext);
@@ -44,6 +45,7 @@ const App = () => {
       <Route path="/recipes/:id" element = {<RecipesDetail/>}/>
       <Route path="/profile/:id" element = {<Profile/>}/>
       <Route path="/community" element = {<Community/>}/>
+      <Route path="/community/:id" element = {<PostDetail/>}/>
     </Routes>
     <Footer/>
     </>
