@@ -8,7 +8,7 @@ const {getAllRecipes,getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcohol
 const {postComment,getComments} = require("./handlers/commentHandler");
 const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
-const {postRate,getRateAverage} = require("./handlers/rateHandler");
+const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
 const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
 const {createPost, getAllPosts, getSinglePost} =  require("./handlers/communityHandler")
 
@@ -40,6 +40,8 @@ app.get("/api/ingredients/:name",getIngredients);
 //for rating
 //get the rate average
 app.get("/api/rateAverage/:id",getRateAverage);
+//get the rate user rated
+app.post("/api/userRate",getUserRate)
 //post the rate
 app.post("/api/rate", postRate)
 

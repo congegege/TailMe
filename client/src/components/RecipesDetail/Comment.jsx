@@ -1,13 +1,12 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
-import GetComments from "./GetComments";
+import styled from "styled-components";
 
-const PostComment = ({id}) =>{
+const PostComment = ({id,setIsPosted}) =>{
     //to store the comment when user typing
     const [comment,setComment] = useState("");
-    //to judge the status whether the comment is posted
-    const [isPosted , setIsPosted] = useState(false);
+    
     //to get the user info
     const {state} = useContext(RecipesContext);
     
@@ -36,15 +35,68 @@ const PostComment = ({id}) =>{
     }
 
     return (
-        <>
+        <Wrapper>
         {/* when user is typing set the posted to default false, and storing the value what user typed */}
-        <textarea onChange={(ev)=>{setComment(ev.target.value);setIsPosted(false)}} value={comment}/>
-        <button onClick={handleClick}>Post</button>
+        <BasicInfo>
+            <ProfilePicture src={state.user.picture}/>
+            <Name>{state.user.name}</Name>
+        </BasicInfo>
+        <Comment placeholder="It taste..." onChange={(ev)=>{setComment(ev.target.value);setIsPosted(false)}} value={comment}/>
+        <PostButton onClick={handleClick}>Post</PostButton>
 
         {/* subcomponent to get all the other comments underneath the same drink */}
-        <GetComments id={id} isPosted={isPosted}/>
-        </>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    padding: 0 3%;
+    display: flex;
+    flex-direction: column;
+    height: 30%;
+    background-color: #eae2b7;
+    border-radius: 30px;
+`
+
+const ProfilePicture = styled.img`
+    border-radius: 50%;
+    height: 70px;
+    border: 3px solid #3a5a40;
+`
+
+const Name = styled.div`
+    font-size: 28px;
+    font-family: "Comic Neue" ;
+    text-shadow: 0px 0px 2px black;
+`
+
+const BasicInfo = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1%;
+`
+
+const Comment = styled.textarea`
+    padding: 2% 0;
+    height: 100px;
+    background-color: transparent;
+    border: none;
+    font-size: 22px;
+    font-family: "Nunito Sans";
+    outline: none;
+    resize: none;
+    
+`
+
+const PostButton = styled.button`
+    align-self: flex-end;
+    width: 90px;
+    height: 50px;
+    border-radius: 40px;
+    background-color: #354f52;
+    border: 2px solid green;
+    color: beige;
+    margin-bottom: 20px;
+`
 
 export default PostComment;

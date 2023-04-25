@@ -20,11 +20,13 @@ const CategoryResult = () => {
     
     //fetch the related recipes by query
     useEffect(()=>{
-        fetch(`/api/categories/recipes?${query}`)
+        setSearchParams(searchParams.toString())
+        fetch(`/api/categories/recipes?${searchParams.toString()}`)
         .then(res=>res.json())
         .then(resData=>setCategoryRecipes(resData.data))
     },[query])
 
+    
 
     return (
         <Container>

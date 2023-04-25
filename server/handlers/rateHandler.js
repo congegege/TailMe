@@ -8,6 +8,37 @@ const options = {
     useUnifiedTopology: true,
 }
 
+//get the user rate
+const getUserRate = async(req , res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+    const {id,sub} = req.body;
+    console.log(id,sub)
+
+    try {
+        await client.connect();
+        const db = client.db("cocktails");
+    
+        const result = await db.collection("reviews").findOne({id:id,rates:{$elemMatch:{sub:sub}}})
+
+        if(!result){
+            return res.status(200).json({status:200,massage:"user hasnt rated yet",data:0});
+        }
+
+        for(const rate of result.rates){
+        
+            //to push the rate inside the list， 0 is not counted minimum is 1
+            if(rate.sub == sub ){
+                return res.status(200).json({status:200,massage:"user Rate get!",data:rate.rate});
+            }
+            
+        }
+        client.close();
+    }
+    catch (err){
+        return res.status(400).json({status:400,massage:err})
+    }
+}
+
 //get the rate average
 const getRateAverage = async (req , res) =>{
 const client = new MongoClient(MONGO_URI,options);
@@ -16,6 +47,7 @@ const {id} = req.params;
 const rateList = [];
 //to store the caculation result fo the average value
 let rateAverage = null;
+
 
 
 try {
@@ -39,7 +71,7 @@ try {
 
     //caculate the sum first / length to get the average round it up to "X.X"
     rateAverage = Math.round((rateList.reduce((sum,curr)=>sum + curr) / rateList.length)*10)/10;
-
+    
     client.close();
     
     return res.status(200).json({status:200,massage:"Average Rate caculated!",data:rateAverage});
@@ -91,4 +123,4 @@ catch (err) {
 }
 
 
-module.exports = {postRate,getRateAverage}
+module.exports = {postRate,getRateAverage,getUserRate}

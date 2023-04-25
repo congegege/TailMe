@@ -31,11 +31,8 @@ const[categoryList,setCategoryList] = useState(null);
 //store whether the filter is clicked
 const [isClicked,setIsClicked] = useState(false);
 
-// to store the rate that user clicked on
-const [rating,setRating] = useState(0);
-
-//to store the averageRate
-const [averageRate ,  setAverageRate] = useState(null);
+//to judge whether user click rate or note
+const [isRate, setIsRate] = useState(false);
 
 //reducer set up
 const [state, dispatch] = useReducer(reducer,initialState);
@@ -54,8 +51,7 @@ const userLogIn = (data) =>{
         recipesList, setRecipesList,
         categoryList,setCategoryList,
         isClicked,setIsClicked,
-        rating,setRating,
-        averageRate,setAverageRate,
+        isRate, setIsRate
       }}
     >
       {children}
