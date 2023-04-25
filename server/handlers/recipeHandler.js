@@ -95,8 +95,6 @@ const getCategory = async(req, res) =>{
 // get the recipes by certain category
 const getCategoryRecipe = async(req,res) =>{
     const client = new MongoClient(MONGO_URI,options);
-    const {category} = req.query;
-    console.log(req.query)
 
     try{
         await client.connect();

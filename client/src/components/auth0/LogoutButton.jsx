@@ -1,19 +1,16 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
-import { useContext } from "react"
-import { RecipesContext } from "../Context/RecipesContext";
 
 const LogoutButton = () =>{
-    const { logout } = useAuth0();
-    const {state} = useContext(RecipesContext);
+    const { logout , user } = useAuth0();
 
     return  (
         <>
         <button onClick={()=>logout()}>
             Log Out
         </button>
-        <Link to={`/profile/${state.user.sub}`}><button>Profile</button></Link>
+        <Link to={`/profile/${user.sub}`}><button>Profile</button></Link>
         </>
     )  
 }

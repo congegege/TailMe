@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
 
 const CollectButton = ({id,recipeInfo}) =>{
@@ -27,7 +28,24 @@ const CollectButton = ({id,recipeInfo}) =>{
         }
     }
 
-    return <button onClick={handleClick}>Collect</button>
+    return <Collect onClick={handleClick}>Collect</Collect>
 }
+
+const Collect =styled.button`
+    width: 150px;
+    height: 80px;
+    align-self: center;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 3px dashed #3a5a40;
+    font-size: 23px;
+    font-family: var(--font-category);
+    color: #6c584c;
+    &:hover{
+        background-color: #6b9080;
+        color: #cce3de;
+        
+    }
+`
 
 export default CollectButton;

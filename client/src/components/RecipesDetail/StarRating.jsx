@@ -10,40 +10,60 @@ const StarRating  = ({id}) =>{
     const ratingStarsList = Array.from({length: 5}, (value, i) => i)
     // to store the rate index that user hover on
     const [hoverStar, setHoverStar] = useState(0);
+
+    //to store the rate
+    const [rating,setRating] = useState(0);
     //to get the user Info
-    const {state,rating,setRating,averageRate,setAverageRate} = useContext(RecipesContext);
+    const {state, setIsRate} = useContext(RecipesContext);
 
     useEffect(()=>{
-        const rateHandler = async()=>{
-            try{
-                if(state){
-                    const {sub} = state.user
-                    const postResult = await fetch("/api/rate",{
-                        method:"POST",
-                        headers:{
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            id:id,rate:rating,sub:sub
-                        }),
-                    })
-                    const postRespond = await postResult.json();
-                    console.log(postRespond)
-                }
-        
-                    const result = await fetch(`/api/rateAverage/${id}`)
-                    const respond = await result.json();
-                    setAverageRate(respond.data)
-            }
-            catch(err){
-                console.log
+        const reset = async() =>{
+            
+            if(state.user){
+                console.log("hi")
+                const {sub} = state.user
+                const postResult = await fetch("/api/userRate",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id:id,sub:sub
+                    }),
+                })
+                const postRespond = await postResult.json();
+                setRating(postRespond.data);
+                
             }
         }
-        rateHandler();
+        reset()
+        
+        },[])
+    
+        
+    useEffect(()=>{
+        const post = async() =>{
+            if(state.user){
+                const {sub} = state.user
+                const postResult = await fetch("/api/rate",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id:id,rate:rating,sub:sub
+                    }),
+                })
+                const postRespond = await postResult.json();
+                setIsRate(false);
+        }
+        }
+        post()
     },[rating])
 
     //onclick function
     const handleClick = async(index) =>{
+        setIsRate(true);
             //when user click on the rate they selected everything will be reset
             if(rating == index + 1){
                 setRating(0);
@@ -54,6 +74,7 @@ const StarRating  = ({id}) =>{
                 setRating(index+1);
                 setHoverStar(index+1);
             }
+            
 
             
         }
@@ -61,8 +82,7 @@ const StarRating  = ({id}) =>{
     
     return (
         <>
-        <p>Rate</p>
-        <div>
+        <RateSection>
             {ratingStarsList.map((star,index)=>{
                 return <Rating key={index}
                 onClick={()=>handleClick(index)}
@@ -73,21 +93,25 @@ const StarRating  = ({id}) =>{
                 onMouseLeave={()=>setHoverStar(rating)}
                 israted={index+1 <= ((rating && hoverStar) || hoverStar) ? true : false}
                 >
-                    <Star size={40} weight="fill" />
+                    <Star size={30} weight="fill" />
                 </Rating>
             })}
-        </div>
+        </RateSection>
         </>
         
     )
 }
 
+const RateSection = styled.div`
+    display: flex;
+`
+
 const Rating = styled.div`
-    color: ${props => props.israted ? "red" : "pink"};
+    color: ${props => props.israted ? "#acd5b4" : "#0a3217"};
     font-weight: fill;
     &:hover{
         cursor: pointer;
-        color:${props => props.israted ? "red" : "pink"} ;
+        color:${props => props.israted ? "#acd5b4" : "#0a3217"} ;
     }
 `
 

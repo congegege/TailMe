@@ -1,14 +1,14 @@
-import { useContext } from "react"
-import { RecipesContext } from "../Context/RecipesContext";
 import LoginButton from "../auth0/LoginButton";
 import LogoutButton from "../auth0/LogoutButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () =>{
-    const {state} = useContext(RecipesContext)
-    console.log(state.user)
+    const { isAuthenticated } = useAuth0();
+
+    
     return (
         <>
-        {state.user ? <LogoutButton/> : <LoginButton/>}
+        {isAuthenticated ? <LogoutButton/> : <LoginButton/>}
         </>
     )
 }
