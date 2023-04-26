@@ -44,7 +44,7 @@ const PostComment = ({id,setIsPosted,setIsClick}) =>{
             <ExitIcon onClick={()=>{setIsClick(false)}}><X size={30}/></ExitIcon>
         </BasicInfo>
         <Comment placeholder="It taste..." onChange={(ev)=>{setComment(ev.target.value);setIsPosted(false)}} value={comment}/>
-        <PostButton onClick={handleClick}>Post</PostButton>
+        <PostButton onClick={handleClick} disabled={!comment ? true : false}>Post</PostButton>
 
         {/* subcomponent to get all the other comments underneath the same drink */}
         </Wrapper>
@@ -102,6 +102,18 @@ const PostButton = styled.button`
     border: 2px solid green;
     color: beige;
     margin-bottom: 20px;
+
+    &:hover{
+        color: #354f52;
+        background-color:beige ;
+    }
+    &:disabled{
+        background-color: #e3d5ca;
+        border: 2px solid #d5bdaf;
+        color: black;
+        opacity: 0.4;
+        cursor:not-allowed;
+    }
 `
 
 const spin = keyframes`
@@ -123,5 +135,7 @@ const ExitIcon = styled.button`
     }
     
 `
+
+
 
 export default PostComment;

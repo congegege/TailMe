@@ -1,15 +1,19 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import RateIconHandler from "../IconHandlers/RateIconHandler";
 import RateStringHandler from "../IconHandlers/RateStringHandler";
-import StarRating from "./StarRating";
 import PostComment from "./Comment";
 
 
 const GetComments = ({id,isPosted,averageRate,setIsPosted}) =>{
+    //to store the user input for posting comment
     const [commentList, setCommentList] = useState([]);
-    const [isClick,setIsClick] = useState(false)
+    //to judge whether user click on the post reviews button or not
+    const [isClick,setIsClick] = useState(false);
+    //to limit the access if user is not login
+    const {isAuthenticated} = useAuth0();
 
     //to get all the comments when user post a new one it will fetch too
     useEffect(()=>{
@@ -23,7 +27,7 @@ const GetComments = ({id,isPosted,averageRate,setIsPosted}) =>{
 return (
     <Wrapper>
     <Title>Reviews <Count>({commentList ? commentList.length : 0})</Count> </Title>
-    <Button onClick={()=>{setIsClick(true)}}>Write a review</Button>
+    {isAuthenticated &&<Button onClick={()=>{setIsClick(true)}}>Write a review</Button>}
     <Container>
         {averageRate > 0 &&
         <RateSection>
