@@ -36,7 +36,7 @@ return (
         
         <ReviewContainer>
             {isClick &&<PostReview>
-                <PostComment id={id} setIsPosted={setIsPosted}/>
+                <PostComment id={id} setIsPosted={setIsPosted} setIsClick={setIsClick}/>
             </PostReview>}
             {commentList ?
         commentList.map((comment ,  index)=>{

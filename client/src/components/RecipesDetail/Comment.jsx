@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import {X} from "@phosphor-icons/react"
 
-const PostComment = ({id,setIsPosted}) =>{
+const PostComment = ({id,setIsPosted,setIsClick}) =>{
     //to store the comment when user typing
     const [comment,setComment] = useState("");
     
@@ -40,6 +41,7 @@ const PostComment = ({id,setIsPosted}) =>{
         <BasicInfo>
             <ProfilePicture src={state.user.picture}/>
             <Name>{state.user.name}</Name>
+            <ExitIcon onClick={()=>{setIsClick(false)}}><X size={30}/></ExitIcon>
         </BasicInfo>
         <Comment placeholder="It taste..." onChange={(ev)=>{setComment(ev.target.value);setIsPosted(false)}} value={comment}/>
         <PostButton onClick={handleClick}>Post</PostButton>
@@ -74,6 +76,9 @@ const BasicInfo = styled.div`
     display: flex;
     align-items: center;
     gap: 1%;
+    width: 100%;
+    position: relative;
+    padding: 2%;
 `
 
 const Comment = styled.textarea`
@@ -97,6 +102,26 @@ const PostButton = styled.button`
     border: 2px solid green;
     color: beige;
     margin-bottom: 20px;
+`
+
+const spin = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+    transform: rotate(360deg)
+    }
+`
+
+const ExitIcon = styled.button`
+    background-color: transparent;
+    position: absolute;
+    right: 2%;
+    &:hover{
+        animation:${spin} 2s infinite;
+    }
+    
 `
 
 export default PostComment;

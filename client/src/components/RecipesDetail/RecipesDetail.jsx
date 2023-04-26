@@ -259,6 +259,9 @@ const CategoryName = styled.div`
     color: black;
     font-family: var(--font-category);
     text-shadow: 1px 1px white, -1px -1px #616661;
+    &:hover{
+        color:#cbdfbd ;
+    }
 `
 
 const Instrution = styled.div`
