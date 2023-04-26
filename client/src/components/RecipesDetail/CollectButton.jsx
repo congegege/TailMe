@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useContext } from "react";
 import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
@@ -6,7 +7,8 @@ const CollectButton = ({id,recipeInfo}) =>{
 
     //to get the user info
     const {state} = useContext(RecipesContext);
-
+    //limit user acces when they are not login
+    const {isAuthenticated} = useAuth0();
     
     const handleClick = () =>{
         if(state && recipeInfo){
@@ -28,7 +30,7 @@ const CollectButton = ({id,recipeInfo}) =>{
         }
     }
 
-    return <Collect onClick={handleClick}>Collect</Collect>
+    return <Collect onClick={handleClick} disabled={isAuthenticated ? false : true}>Collect</Collect>
 }
 
 const Collect =styled.button`
@@ -43,8 +45,15 @@ const Collect =styled.button`
     color: #6c584c;
     &:hover{
         background-color: #6b9080;
-        color: #cce3de;
+        color: #f5ebe0;
         
+    }
+    &:disabled{
+        background-color: #e3d5ca;
+        border: 2px solid #d5bdaf;
+        color: black;
+        opacity: 0.4;
+        cursor:not-allowed;
     }
 `
 

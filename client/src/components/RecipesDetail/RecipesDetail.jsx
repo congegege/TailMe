@@ -8,6 +8,7 @@ import CategoryPictureHandler from "../IconHandlers/CategoryIconHandler";
 import { RecipesContext } from "../Context/RecipesContext";
 import GetComments from "./GetComments";
 import StarRating from "./StarRating";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const RecipesDetail = () =>{
@@ -17,13 +18,18 @@ const RecipesDetail = () =>{
     const ingredientsNumList = Array.from({length: 15}, (value, i) => i + 1)
     //to store the recipeInfo
     const [recipeInfo,setRecipeInfo] = useState(null);
+    //to jusdge whether user hover on the ingresients
     const [isHover ,  setIsHover] = useState(false);
+    //to store the ingresient img url when user hover on one
     const [hoverIngredient , setHoverIngredient] = useState(null);
+    //get the user info from the context
     const {state} = useContext(RecipesContext);
     //to judge the status whether the comment is posted
     const [isPosted , setIsPosted] = useState(false);
-
+    // to store the average rate when fetching
     const [averageRate ,  setAverageRate] = useState(null);
+    //limit the access if use is not login
+    const {isAuthenticated} = useAuth0();
 
 
     let ingredients = ingredientsNumList.filter((num)=>{
@@ -43,9 +49,18 @@ const RecipesDetail = () =>{
     
 
     //will replace with loading componet , put it there first to avoid the error
-    if(!recipeInfo || !state.user){
-        return <>Loading</>
+    if(isAuthenticated){
+        if(!recipeInfo || !state.user){
+            return <>Loading</>
+        }
     }
+    else{
+        if(!recipeInfo){
+            return <>Loading</>
+        }
+    }
+    
+    
 
     return (
         <Wrapper>
@@ -78,7 +93,7 @@ const RecipesDetail = () =>{
                             <PictureContainer>
                                 <RecipePicture src={!isHover ? recipeInfo.strDrinkThumb : `https://www.thecocktaildb.com/images/ingredients/${hoverIngredient}.png`} />
                             </PictureContainer>
-                            <StarRating id={id}/>
+                            {isAuthenticated && <StarRating id={id}/>}
                         </PictureSection>
 
                         
