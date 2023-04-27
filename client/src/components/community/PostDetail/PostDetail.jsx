@@ -5,6 +5,7 @@ import styled, { keyframes } from "styled-components";
 import AlcoholicPictureHandler from "../../IconHandlers/AlcoholicHandler";
 import { useContext } from "react";
 import { RecipesContext } from "../../Context/RecipesContext";
+import Parser from "html-react-parser"
 
 const PostDetail = () =>{
     const {id} = useParams();
@@ -19,10 +20,6 @@ const PostDetail = () =>{
 
     if(!singlePostInfo || !state.user){
         return <>Loading</>
-    }
-
-    if( singlePostInfo.post.length > 0 && document.getElementById("post")){
-            document.getElementById("post").innerHTML = singlePostInfo.post;
     }
     
 
@@ -46,7 +43,7 @@ const PostDetail = () =>{
                         <Name>{state.user.name}</Name>
                         <Date>{singlePostInfo.date}</Date>
                 </BasicInfo>        
-                <Instruction id="post"></Instruction>
+                <Instruction id="post" >{Parser(singlePostInfo.post)}</Instruction>
             </PostContent>
             
         <CommunityCollectButton id={id} recipeInfo = {singlePostInfo}/>
@@ -61,8 +58,8 @@ const Wrapper = styled.div`
     grid-template-columns:  1fr 9fr;
     align-items: center;
     justify-items: center;
-    height: 100vh;
     background-color: #eff4e0;
+    position: relative;
 `
 
 const RecipeInfoSection = styled.div`
@@ -72,7 +69,7 @@ const RecipeInfoSection = styled.div`
     justify-content: center;
     padding: 30px;
     line-height: 35px;
-    width: 55%;
+    width: 60%;
 `
 
 const PictureContainer = styled.div`
@@ -135,7 +132,7 @@ const DrinkName = styled.h1`
     margin: 2% 0 ;
     font-family: var(--font-category-heading);
     font-size:60px;
-    width: 120%;
+    width: 100%;
     text-transform: uppercase;
 	color: transparent;
 	-webkit-text-stroke: #08361b;
@@ -159,7 +156,6 @@ const Date =styled.div`
 `
 
 const Category = styled.div`
-    width: 100%;
     display: flex;
     gap: 2%;
     align-items: center;

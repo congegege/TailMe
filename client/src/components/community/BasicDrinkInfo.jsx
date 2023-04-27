@@ -30,8 +30,8 @@ const BasicDrinkInfo = () =>{
                         <BottomRight>Alcoholic</BottomRight>
                     </Category>
                     
-                    <Category isClicked={formData.strAlcoholic =="NonAlcoholic" ? true : false} onClick={()=>{setFormData({...formData,"strAlcoholic": "NonAlcoholic"})}}>
-                    {formData.strAlcoholic =="NonAlcoholic" && <CheckButton><Check weight='light'/></CheckButton>}
+                    <Category isClicked={formData.strAlcoholic =="Non Alcoholic" ? true : false} onClick={()=>{setFormData({...formData,"strAlcoholic": "Non Alcoholic"})}}>
+                    {formData.strAlcoholic =="Non Alcoholic" && <CheckButton><Check weight='light'/></CheckButton>}
                         <TopLeft>Non Alcoholic</TopLeft>
                         <CategoryPicture src='https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682203199/non-alcoholic_vymeuh.png' />
                         <BottomRight>Non Alcoholic</BottomRight>
