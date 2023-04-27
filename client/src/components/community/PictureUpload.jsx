@@ -96,7 +96,7 @@ const UploadedImageSection = styled.div`
 
 const RecipeImage = styled.img`
     max-width: 80%;
-    max-height: 75%;
+    max-height: 60%;
     border-radius: 30px;
 `
 

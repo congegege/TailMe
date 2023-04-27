@@ -10,7 +10,7 @@ const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
 const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
-const {createPost, getAllPosts, getSinglePost} =  require("./handlers/communityHandler")
+const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler")
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -65,8 +65,11 @@ app.post("/api/users/collections",postCollection);
 app.post("/api/users/communityCollections",  postCommunityCollection);
 
 //for community
-app.get("/api/community/posts", getAllPosts);
+//to get the posts underneat certain query
+app.get("/api/community/posts", getPosts);
+//to get the post by id
 app.get("/api/community/posts/:id", getSinglePost);
+//to store the content what user post in the community 
 app.post("/api/community", createPost);
 
 
