@@ -1,9 +1,15 @@
+import {CaretDoubleDown,CaretDoubleUp} from "@phosphor-icons/react";
 import { useEffect,useState } from "react";
 import { Link  } from "react-router-dom";
+import styled from "styled-components";
 
 const Collection = ({sub}) =>{
     const[collectionList,setCollectionList] = useState(null);
-    const[communityCollectionList,setCommunityCollectionList] = useState(null);
+    const[ratedList , setRatedList] = useState(null);
+    const[userCommentsList, setUserCommentsList] = useState(null);
+    const [isExpanded , setIsExpanded] = useState(false);
+    const [isRateExpanded , setIsRateExpanded] = useState(false);
+    const [isCommentExpanded , setIsCommentExpanded] = useState(false);
 
     useEffect(()=>{
         fetch(`/api/users/collections/${sub}`)
@@ -12,35 +18,227 @@ const Collection = ({sub}) =>{
     },[])
 
     useEffect(()=>{
-        fetch(`/api/users/communityCollections/${sub}`)
+        fetch(`/api/ratedDrink/${sub}`)
         .then(res=>res.json())
-        .then(resData=>setCommunityCollectionList(resData.data))
+        .then(resData=>setRatedList(resData.data))
     },[])
 
-    if(!collectionList || !communityCollectionList){
+    useEffect(()=>{
+        fetch(`/api/userComments/${sub}`)
+        .then(res=>res.json())
+        .then(resData=>setUserCommentsList(resData.data))
+    },[])
+
+    if(!collectionList || !ratedList || !userCommentsList){
         return <>Loading</>
     }
 
+    const collectionResultList = collectionList.filter((collection,index)=>{
+        if(collectionList.length){
+            if(!isExpanded){
+                return  index >= collectionList.length - 3
+            }
+            else{
+                return collection
+            }
+        }
+        else{
+            return collection
+        }
+        
+    })
+
+    const ratedResultList = ratedList.filter((ratedDrink,index)=>{
+        if(ratedList.length > 3){
+            if(!isRateExpanded){
+                return  index >= ratedList.length - 3
+            }
+            else{
+                return ratedDrink
+            }
+        }
+        else{
+            return ratedDrink
+        }
+    })
+    
+    const userCommentResultList = userCommentsList.filter((commentDrink,index)=>{
+        if(userCommentsList.length > 3){
+            if(!isCommentExpanded){
+                return  index >= commentDrink.length - 3
+            }
+            else{
+                return commentDrink
+            }
+        }
+        
+        else{
+            return commentDrink
+        }
+    })
+
     return(
-        <>
-        {collectionList.map((collection)=>{
-            return (
-                <Link key={collection.id} to={`/recipes/${collection.id}`}>
-                <div>{collection.strDrink}</div>
-                <img src={collection.strDrinkThumb}/>
-                </Link>
-            ) 
-        })}
-        {communityCollectionList.map((communityCollection)=>{
-            const {id,strDrink,img} = communityCollection
-            return (
-                <Link key={id} to={`/community/${id}`}>
-                <div>{strDrink}</div>
-                <img src={img}/>
-                </Link>
-            ) 
-        })}
-        </>
+        <Wrapper>
+        <Title>My collection</Title>
+        <CollectionSection>
+        {collectionResultList.map((collection,index)=>{
+                    return (
+                        <RecipeContainer order={-index} key={collection.id} to={`/recipes/${collection.id}`}>
+                        <RecipePicture src={collection.strDrinkThumb}/>
+                        <DrinkName>{collection.strDrink}</DrinkName>
+                        </RecipeContainer>
+                    ) 
+                
+                    })}
+        </CollectionSection>
+        {collectionList.length > 3 && <ExpandButton>
+            {!isExpanded
+            ? <CaretDoubleDown size={40} onClick={()=>{setIsExpanded(true)}}/> 
+            : <CaretDoubleUp size={40} onClick={()=>{setIsExpanded(false)}}/>}
+        </ExpandButton>}
+        <Title>My rates</Title>
+        <CollectionSection>
+        {ratedResultList.map((ratedDrink,index)=>{
+                    return (
+                        <RecipeContainer order={-index} key={ratedDrink.id} to={`/recipes/${ratedDrink.id}`}>
+                        <RecipePicture src={ratedDrink.drinkImage}/>
+                        <DrinkName>{ratedDrink.drinkName}</DrinkName>
+                        <Rate>{ratedDrink.rate}.0</Rate>
+                        </RecipeContainer>
+                    ) 
+                
+                    })}
+        </CollectionSection>
+        {ratedList.length > 3 &&
+        <ExpandButton>
+            {!isRateExpanded
+            ? <CaretDoubleDown size={40} onClick={()=>{setIsRateExpanded(true)}}/> 
+            : <CaretDoubleUp size={40} onClick={()=>{setIsRateExpanded(false)}}/>}
+        </ExpandButton>}
+        <Title>My Comments</Title>
+        <CommentSection>
+        {userCommentResultList.map((commentDrink,index)=>{
+                    return (
+                        <CommentContainer>
+                        <PictureContainer order={-index} key={commentDrink.id} to={`/recipes/${commentDrink.id}`}>
+                        <Picture src={commentDrink.drinkImage}/>
+                        <DrinkName>{commentDrink.drinkName}</DrinkName>
+                        </PictureContainer>
+                        <Comment>“{commentDrink.comment}”</Comment>
+                        </CommentContainer>
+                    ) 
+                
+                    })}
+        </CommentSection>
+    
+        {userCommentsList.length > 3 &&
+        <ExpandButton>
+            {!isCommentExpanded
+            ? <CaretDoubleDown size={40} onClick={()=>{setIsCommentExpanded(true)}}/> 
+            : <CaretDoubleUp size={40} onClick={()=>{setIsCommentExpanded(false)}}/>}
+        </ExpandButton>}
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`
+
+const CommentSection = styled.div`
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    padding: 3% 0;
+    
+    
+`
+
+const CommentContainer = styled.div`
+    display: flex;
+    gap: 20%;
+    align-items: center;
+    margin: 2% 0;
+`
+
+const Comment = styled.div`
+    width: 50%;
+    word-wrap: break-word;
+    font-size: 25px;
+    font-family: "Nunito Sans";
+    color: #5e503f;
+`
+
+const PictureContainer = styled(Link)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const Picture = styled.img`
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+`
+
+const Title = styled.div`
+    font-family:"Lexend Deca";
+    font-size: 50px;
+    align-self: flex-start;
+    margin-left: 8%;
+    padding: 2% 0 ;
+    border-bottom: 5px dashed #ddbea9;
+    width: 80%;
+    color: #6c584c;
+`
+
+const CollectionSection = styled.div`
+    width: 85%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 3% 0;
+    align-items:center;
+`
+
+const RecipeContainer = styled(Link)`
+    margin: 2%;
+    order: ${props=>props.order};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+`
+
+const Rate = styled.div`
+    position: absolute;
+    top: -30px;
+    right: 20px;
+    font-size: 50px;
+    color: #631d20;
+    font-family: "Architects Daughter";
+`
+
+const ExpandButton = styled.button`
+    width: 100px;
+    height: 80px;
+    background-color: transparent;
+    font-weight: fill;
+    color: gray;
+`
+
+const RecipePicture = styled.img`
+    width: 400px;
+    height: 400px;
+    border-radius: 30%;
+`
+
+const DrinkName = styled.div`
+    text-align: center;
+    font-family: "Comic Neue";
+    font-size: 30px;
+    color: #6b9080;
+`
+
 export default Collection;

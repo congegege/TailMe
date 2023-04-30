@@ -44,6 +44,15 @@ const [isClick , setIsClick] = useState(false);
 
 const [fileName , setFileName] = useState (null);
 
+const [clickedSection , setClickedSection] = useState(null)
+
+const sectionList = 
+    [{"name":"Home","icon":"https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682734952/home_bonqys.png"}
+    ,{"name":"DashBoard","icon":'https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682736948/clipboard_zt0z4p.png'}
+    ,{"name":"Collection","icon":'https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682736120/drink_aurwsc.png'}
+    ,{"name":"Community","icon":'https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682736247/speech-bubble_1_iyktpv.png'}
+    ]
+
 //reducer set up
 const [communityState, dispatch] = useReducer(reducer,initialState);
 
@@ -58,12 +67,14 @@ const createPost = (data) =>{
   return (
     <CommunityContext.Provider
       value={{
+        sectionList,
         communityState,actions:{createPost , submitPost},
         allPostsList, setAllPostsList,
         currentPage , setCurrentPage,
         isClick , setIsClick,
         formData , setFormData,
-        fileName , setFileName
+        fileName , setFileName,
+        clickedSection , setClickedSection
       }}
     >
       {children}

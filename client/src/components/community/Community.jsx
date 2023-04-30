@@ -3,13 +3,12 @@ import { useEffect , useContext } from 'react';
 import { Link, useSearchParams  } from "react-router-dom";
 import { CommunityContext } from '../Context/CommunityContext';
 import PostForm from './PostForm';
-import UserSideBar from './UserSideBar';
 import styled, { css, keyframes } from 'styled-components';
 import { CaretDown } from '@phosphor-icons/react';
 
 
 const Community = () =>{
-    const {communityState, allPostsList , setAllPostsList, isClick} = useContext(CommunityContext);
+    const {communityState, allPostsList , setAllPostsList, isClick, setIsClick} = useContext(CommunityContext);
     const [category,setCategory] = useState(null);
     const [isFilter , setIsFilter] = useState(false);
     const [searchParams,setSearchParams] = useSearchParams(window.location.search);
@@ -38,7 +37,22 @@ const Community = () =>{
 
     return (
         <Wrapper>
-            <UserSideBar/>
+            <IntroContainer>
+                <IntroSection>
+                    <TextSection>
+                        <div>Drink,</div>
+                        <Right>Share</Right>
+                        <Right>& Enjoy</Right>
+                    </TextSection>
+                    
+                    <PostTitle><PostButton onClick={()=>{setIsClick(true)}}>Post</PostButton></PostTitle>
+                </IntroSection>
+            
+                <PictureContainer>
+                    <IntroPicture src="https://cdn.discordapp.com/attachments/688213778206294154/1101392887314395216/Aegyoking_one_cocktail_with_wizard_hat_with_green_juice__transp_6b234b9e-8307-42d8-a1d3-53bd72a3aaaf-removebg-preview.png"/>
+                    <Circle></Circle>
+                </PictureContainer>
+            </IntroContainer>
             <Content>
             <Title>
                 <FirstPart>
@@ -77,8 +91,91 @@ const Community = () =>{
 
 const Wrapper = styled.div`
     background-color: #dad7cd;
+`
+
+const IntroContainer = styled.div`
+    width: 100%;
+    height: 75vh;
     display: flex;
+    gap: 20%;
+    justify-content: center;
+    align-items: center;
+    background-color: #344e41;
     
+`
+
+const IntroSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 80%;
+    justify-content: center;
+`
+
+const TextSection = styled.div`
+    background-image: url(https://img.freepik.com/free-photo/water-drops-surface-background_395237-134.jpg?w=1480&t=st=1682662890~exp=1682663490~hmac=14cdbe8daaf270d3f0942d643e8b449b74fc7cf6c30d8c61e6af08d488c51ab5);
+    font-size:90px;
+    font-weight: 700;
+    color: transparent;
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    display: flex;
+    flex-direction: column;
+`
+
+const Right = styled.div`
+    align-self: end;
+`
+
+const PostTitle = styled.div`
+margin-top: 10%;
+display: flex;
+justify-content: center;
+align-items: center;
+
+`
+
+const PostButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    height: 60px;
+    border-radius: 30px;
+    background-size: cover;
+    background-image: url(https://img.freepik.com/free-photo/splashes-bubbles-colored-liquid_23-2148346902.jpg?w=1480&t=st=1682664506~exp=1682665106~hmac=cccdd703c19d132af62aaa07d3e915b997a38a36d3796efaf5fb2c6f1a7dc161);
+    font-size: 40px;
+    color: #e3f8dd;
+    font-family: "Titillium Web";
+`
+
+const PictureContainer = styled.div`
+    height: 100%;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+
+const IntroPicture = styled.img`
+    width: 350px;
+    z-index: 2;
+`
+
+const Circle = styled.div`
+    position: absolute;
+    width: 500px;
+    height: 250px; 
+    bottom: 0px;
+    left: -90px;
+    background-color: #e9edc9;
+    border-top-left-radius: 550px;  
+    border-top-right-radius: 550px; 
+    border: 20px solid #cccaca2e;
+    border-bottom: 0;
+    z-index: 1;
 `
 
 const Content = styled.div`
@@ -91,6 +188,8 @@ const Title = styled.h1`
     color: #656d4a;
     font-family: 'Lexend Deca', sans-serif;
 `
+
+
 
 const FirstPart = styled.p`
     font-size: 33px;

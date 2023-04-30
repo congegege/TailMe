@@ -179,6 +179,7 @@ const PictureContainer = styled.div`
 const RecipePicture = styled.img`
     border-radius: 50%;
     position: relative;
+    height: 650px;
 `
 
 const BasicInfoSection = styled.div`
