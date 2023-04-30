@@ -26,7 +26,7 @@ const CategoryResult = () => {
         .then(resData=>setCategoryRecipes(resData.data))
     },[query])
 
-    
+    console.log(categoryRecipes)
 
     return (
         <Container>
@@ -43,9 +43,9 @@ const CategoryResult = () => {
                 <FilterButton onClick={()=>setIsClicked(true)} >Filters</FilterButton>
             </TitleSection>
 
-            <Wrapper>
+            {categoryRecipes && categoryRecipes.length > 0  &&  <Wrapper>
                 {/* display the result */}
-                {categoryRecipes && categoryRecipes.map((recipe,index)=>{
+                {categoryRecipes.map((recipe,index)=>{
                     return(
                         <RecipeSection key={index}>
                             <Link to={`/recipes/${recipe.idDrink}`}><RecipePicture src={recipe.strDrinkThumb} /></Link>
@@ -53,20 +53,68 @@ const CategoryResult = () => {
                         </RecipeSection>
                     )
                 })}
-            </Wrapper>
+                
+            </Wrapper>}
+            {categoryRecipes && categoryRecipes.length == 0 &&
+            <NoResultContainer>
+            <NoResult>No Result<Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/> </NoResult>
+            <Message to={"/community"}>Explore our <Part>community</Part> to discover more</Message>
+            </NoResultContainer>}
 
         </Container>
         
     )
 }
 
+const NoResultContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90vh;
+`
+
+const NoResult = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    width: 20%;
+`
+
+const Message = styled(Link)`
+    margin-top: 1%;
+    font-size: 20px;
+    color: black;
+    &:hover{
+        color: black;
+        cursor: pointer;
+        text-decoration: underline wavy 1px #588157;
+    }
+`
+
+const Part = styled.span`
+    color:#588157;
+`
+
+const Face = styled.img`
+    width: 40px;
+    margin: 0 5% ;
+`
+
 const FilterButton = styled.button`
-font-size: 20px;
+font-size: 32px;
 font-family: var(--font-category-heading);
 background-color: white;
 color: darkgray;
+width: 200px;
+margin: auto;
+border-radius: 100px;
 
 &:hover{
+    background-color: #ccd5ae;
     cursor: pointer;
     color: black;
 }
@@ -86,6 +134,9 @@ const QueryTitle = styled.span`
 
 const DrinkName = styled.div`
     text-align: center;
+    font-family: "Comic Neue";
+    font-size: 30px;
+    color: #6b9080;
 `
 
 const Container = styled.div`
@@ -94,10 +145,10 @@ const Container = styled.div`
 `
 
 const Wrapper = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-flex-wrap: wrap;
+    width: 80%;
+    margin: 2% auto;
+    display: grid ;
+    grid-template-columns: repeat(2, 1fr);
 `
 
 const RecipeSection = styled.div`
@@ -108,8 +159,9 @@ const RecipeSection = styled.div`
 `
 
 const RecipePicture = styled.img`
-    border-radius: 14px;
+    border-radius: 50px;
     width: 600px;
+    height: 600px;
 
 `
 

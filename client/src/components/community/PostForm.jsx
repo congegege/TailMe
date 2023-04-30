@@ -33,7 +33,7 @@ const PostForm = () =>{
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                sub:state.user.sub, userPicture:state.user.picture,...formData
+                sub:state.user.sub,name:state.user.name, userPicture:state.user.picture,...formData
             }),
         })
         .then((res)=>res.json())
@@ -86,7 +86,7 @@ const Container = styled.div`
     align-items: center;
     cursor: pointer;
     background-color: rgb(31,31,31,0.8);
-    z-index: 1;
+    z-index: 5;
 `
 
 const Form = styled.div`

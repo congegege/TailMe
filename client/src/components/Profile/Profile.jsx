@@ -1,20 +1,44 @@
-import { useContext } from "react";
+import { useContext , useState , useEffect } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 import Collection from "./Collection";
-import { format } from "date-fns";
+import UserSideBar from "./UserSideBar";
+import styled from "styled-components";
+import { CommunityContext } from "../Context/CommunityContext";
+import CommunitySection from "./CommunitySection";
+import DashBoard from "./DashBoard";
 
 const Profile = () =>{
     const {state} = useContext(RecipesContext);
-    const {name,picture,email,updated_at,sub} = state.user;
+    const {clickedSection} = useContext(CommunityContext);
+    
 
-    return (
-        <>
-        <img src={picture}/>
-        <div>{name}</div>
-        <div>{email}</div>
-        <div>{format(new Date(updated_at), "yyyy.MM.dd")}</div>
-        <Collection sub={sub}/>
-        </>
-    )
+    if(state.user){
+        const {sub} = state.user;
+        return (
+            <Wrapper>
+            <UserSideBar/>
+            <Content>
+            {!clickedSection && <DashBoard/>}
+            {clickedSection == "DashBoard" && <DashBoard/>}
+            {clickedSection == "Collection" && <Collection sub={sub}/>}
+            {clickedSection == "Community" && <CommunitySection sub={sub}/>}
+            </Content>
+            </Wrapper>
+        )
+    }
+    else{
+        return <>Loading</>
+    }
 }
+
+const Content = styled.div`
+width: 85%;
+margin-left: 15%;
+`
+
+const Wrapper = styled.div`
+    background-color: #fdefe4;
+    min-height: 100vh;
+`
+
 export default Profile

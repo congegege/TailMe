@@ -39,8 +39,8 @@ const PostDetail = () =>{
                 
             <PostContent>
                 <BasicInfo>
-                        <ProfilePicture src={state.user.picture}/>
-                        <Name>{state.user.name}</Name>
+                        <ProfilePicture src={singlePostInfo.userPicture}/>
+                        <Name>{singlePostInfo.name}</Name>
                         <Date>{singlePostInfo.date}</Date>
                 </BasicInfo>        
                 <Instruction id="post" >{Parser(singlePostInfo.post)}</Instruction>

@@ -10,7 +10,8 @@ const {getIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
 const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
-const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler")
+const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler");
+const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler")
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -40,7 +41,7 @@ app.get("/api/ingredients/:name",getIngredients);
 //for rating
 //get the rate average
 app.get("/api/rateAverage/:id",getRateAverage);
-//get the rate user rated
+//get the rate user rated under certain drink
 app.post("/api/userRate",getUserRate)
 //post the rate
 app.post("/api/rate", postRate)
@@ -72,6 +73,14 @@ app.get("/api/community/posts/:id", getSinglePost);
 //to store the content what user post in the community 
 app.post("/api/community", createPost);
 
+
+//for profile
+//to get all the drink that user rated
+app.get("/api/ratedDrink/:sub", getRatedDrink);
+// to get all the comments that user posted
+app.get("/api/userComments/:sub", getUserComments);
+// to get all the posts that user posted in the community
+app.get("/api/community/userPosts/:sub", getUserPosts);
 
 
 
