@@ -7,11 +7,12 @@ const port = 3000
 const {getAllRecipes,getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
 const {postComment,getComments} = require("./handlers/commentHandler");
 const {getIngredients} = require("./handlers/ingredientsHandler");
-const {getUsers} = require("./handlers/userHandler");
+const {getUsers,getRandomUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
 const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
 const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler");
-const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler")
+const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler");
+const {getAllPopularDrink} = require("./handlers/popularDrinkHandler")
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -54,6 +55,7 @@ app.post("/api/comments", postComment);
 
 //get users info
 app.get("/api/users/:sub",getUsers);
+app.get("/api/randomUsers/",getRandomUsers);
 
 //for collection
 //get the collection that user added
@@ -82,7 +84,9 @@ app.get("/api/userComments/:sub", getUserComments);
 // to get all the posts that user posted in the community
 app.get("/api/community/userPosts/:sub", getUserPosts);
 
-
+//for popular Drink
+// to get all the popular Drink
+app.get("/api/popularDrink", getAllPopularDrink)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
