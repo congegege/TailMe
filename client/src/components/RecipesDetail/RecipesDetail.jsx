@@ -60,8 +60,6 @@ const RecipesDetail = () =>{
         }
     }
     
-    
-
     return (
         <Wrapper>
             <RecipeContainer>
@@ -180,6 +178,8 @@ const RecipePicture = styled.img`
     border-radius: 50%;
     position: relative;
     height: 650px;
+    width: 650px;
+    object-fit: cover;
 `
 
 const BasicInfoSection = styled.div`

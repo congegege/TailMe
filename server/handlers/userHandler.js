@@ -34,4 +34,22 @@ const getUsers = async (req , res) =>{
     }
     }
 
-module.exports = {getUsers}
+    //get random 5 users who post in community
+    const getRandomUsers =async(req,res) =>{
+    const client = new MongoClient(MONGO_URI,options);
+    try{
+        await client.connect();
+        const db = client.db("cocktails");
+
+        const result = await db.collection("community").aggregate([{$group:{ _id: "$userPicture"}}, {$limit:5}]).toArray()
+
+        await client.close();
+
+        return res.status(200).json({status:200,massage:"success",data:result});
+    }
+    catch(err){
+        return res.status(400).json({status:400,massage:err})
+    }
+}
+
+module.exports = {getUsers,getRandomUsers}
