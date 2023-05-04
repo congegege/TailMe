@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
+import Header from "../Header/Header";
 import SideBar from "./SideBar";
 
 
@@ -16,7 +17,7 @@ const CategoryResult = () => {
     //the array that contain all the query value, ex:["cocktail"."Alcoholic"]
     const queryList = Array.from(searchParams.values());
     //judge whether the user click on the button filter when click the sidebar will be displayed
-    const {setIsClicked} = useContext(RecipesContext)
+    const {setIsClicked, isClicked} = useContext(RecipesContext)
     
     //fetch the related recipes by query
     useEffect(()=>{
@@ -29,7 +30,10 @@ const CategoryResult = () => {
     console.log(categoryRecipes)
 
     return (
+        <>
+        
         <Container>
+        {!isClicked && <Header/>}
             <SideBar />
             <TitleSection>
                 <QueryTitle>
@@ -62,6 +66,7 @@ const CategoryResult = () => {
             </NoResultContainer>}
 
         </Container>
+        </>
         
     )
 }
@@ -108,7 +113,7 @@ const FilterButton = styled.button`
 font-size: 32px;
 font-family: var(--font-category-heading);
 background-color: white;
-color: darkgray;
+color: #0c5233;
 width: 200px;
 margin: auto;
 border-radius: 100px;
@@ -141,6 +146,7 @@ const DrinkName = styled.div`
 
 const Container = styled.div`
     width: 100%;
+    background-color: #e6e8e6;
 
 `
 

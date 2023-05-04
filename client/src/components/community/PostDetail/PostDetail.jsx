@@ -6,35 +6,51 @@ import AlcoholicPictureHandler from "../../IconHandlers/AlcoholicHandler";
 import { useContext } from "react";
 import { RecipesContext } from "../../Context/RecipesContext";
 import Parser from "html-react-parser"
+import { useAuth0 } from "@auth0/auth0-react";
+import DetailHeader from "../../Header/DetailHeader";
+
 
 const PostDetail = () =>{
     const {id} = useParams();
     const [singlePostInfo , setSinglePostInfo] = useState(null);
-    const {state} = useContext(RecipesContext)
+    const {state} = useContext(RecipesContext);
+    const {isAuthenticated} = useAuth0();
     
     useEffect(()=>{
         fetch(`/api/community/posts/${id}`)
         .then(res=>res.json())
-        .then(resData=>setSinglePostInfo(resData.data))
+        .then(resData=>{
+            setSinglePostInfo(resData.data);
+            
+        })
     },[singlePostInfo])
 
-    if(!singlePostInfo || !state.user){
-        return <>Loading</>
+    
+    if(isAuthenticated){
+        if(!singlePostInfo || !state.user){
+            return <>Loading</>
+        }
+    }
+    else{
+        if(!singlePostInfo){
+            return <>Loading</>
+        }
     }
     
 
     return (
+        <>
+        <DetailHeader/>
         <Wrapper>
+            
             <PictureContainer>
                 <RecipePicture src={singlePostInfo.img}/>
             </PictureContainer>
             <RecipeInfoSection>
                 <Title>
-                <Category>
                     <DrinkName>{singlePostInfo.strDrink}</DrinkName>
                     <AlcoholicPictureHandler Alcoholic={singlePostInfo.strAlcoholic}/>
                     <CategoryName>{singlePostInfo.strAlcoholic}</CategoryName>
-                </Category>
                 </Title>
                 
             <PostContent>
@@ -49,7 +65,7 @@ const PostDetail = () =>{
         <CommunityCollectButton id={id} recipeInfo = {singlePostInfo}/>
         </RecipeInfoSection>
         </Wrapper>
-
+        </>
     )
 }
 
@@ -58,7 +74,7 @@ const Wrapper = styled.div`
     grid-template-columns:  1fr 9fr;
     align-items: center;
     justify-items: center;
-    background-color: #eff4e0;
+    background-color: #fdfbec;
     position: relative;
 `
 
@@ -123,22 +139,24 @@ const flicker = keyframes`
 
 const Title = styled.div`
     display: flex;
-    justify-content: space-between;
     border-bottom: 5px dashed #b6ad90;
     align-items: center;
+    width: 100%;
+    padding-top: 16%;
 `
 
 const DrinkName = styled.h1` 
-    margin: 2% 0 ;
+    margin: 1% 0 ;
     font-family: var(--font-category-heading);
-    font-size:60px;
+    font-size:50px;
     width: 100%;
     text-transform: uppercase;
 	color: transparent;
 	-webkit-text-stroke: #08361b;
 	-webkit-text-stroke-width: 3px;
 	text-shadow: 2px 2px 5px #cbdfbd;
-	letter-spacing: 0.2em;
+    letter-spacing: 2px;
+    white-space: nowrap;
 	animation: ${flicker} 0.5s ease-in-out infinite alternate;
 `
 
@@ -153,13 +171,6 @@ const Date =styled.div`
     font-family: "Comic Neue";
     font-size: 20px;
     right: 4%;
-`
-
-const Category = styled.div`
-    display: flex;
-    gap: 2%;
-    align-items: center;
-    font-size: 20px;
 `
 
 const CategoryName = styled.div`
@@ -180,7 +191,7 @@ const BasicInfo = styled.div`
     gap: 1%;
     width: 100%;
     position: relative;
-    padding: 2%;
+    padding: 1%;
 `
 
 const PostContent = styled.div`

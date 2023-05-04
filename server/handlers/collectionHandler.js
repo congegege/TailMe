@@ -118,9 +118,9 @@ const getCommunityCollections = async (req , res) =>{
         const db = client.db("cocktails");
     
         const result = await db.collection("users").findOne({sub:sub})
-    
+
         if(!result){
-            return res.status(400).json({status:400,massage:"invalid user sub"})
+            res.status(200).json({status:200,massage:"no collections yet",data:null});
         }
     
         client.close();

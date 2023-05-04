@@ -5,6 +5,7 @@ import { CommunityContext } from '../Context/CommunityContext';
 import PostForm from './PostForm';
 import styled, { css, keyframes } from 'styled-components';
 import { CaretDown } from '@phosphor-icons/react';
+import CommunityHeader from '../Header/CommunityHeader';
 
 
 const Community = () =>{
@@ -37,6 +38,7 @@ const Community = () =>{
 
     return (
         <Wrapper>
+            <CommunityHeader/>
             <IntroContainer>
                 <IntroSection>
                     <TextSection>

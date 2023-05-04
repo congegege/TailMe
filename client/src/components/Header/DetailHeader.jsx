@@ -9,7 +9,7 @@ import { useRef } from "react";
 import { useContext } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 
-const Header = () =>{
+const DetailHeader = () =>{
     const { isAuthenticated } = useAuth0();
     const [isCategoryHover , setIsCategoryHover] = useState(false);
     const [scrolledDirection , setScrolledDirection] = useState(null);
@@ -92,7 +92,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color:#e6e8e6; 
+    background-color:#fdfbec; 
     z-index: 8;
 `
 
@@ -195,4 +195,4 @@ const PictureContainer = styled(Link)`
     align-items: center;
 `
 
-export default Header
+export default DetailHeader;

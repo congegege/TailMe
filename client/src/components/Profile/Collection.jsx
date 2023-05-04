@@ -2,6 +2,7 @@ import {CaretDoubleDown,CaretDoubleUp} from "@phosphor-icons/react";
 import { useEffect,useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
+import { ArrowRight } from "@phosphor-icons/react";
 
 const Collection = ({sub}) =>{
     const[collectionList,setCollectionList] = useState(null);
@@ -79,8 +80,13 @@ const Collection = ({sub}) =>{
 
     return(
         <Wrapper>
-        <Title>My collection</Title>
-        <CollectionSection>
+        <Title>My Collection</Title>
+        {collectionResultList.length == 0 
+        ?   <Massage to={"/categories"}>
+            <Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/>
+                No collections yet <ArrowRight size={28}/>
+            </Massage>
+        : <CollectionSection>
         {collectionResultList.map((collection,index)=>{
                     return (
                         <RecipeContainer order={-index} key={collection.id} to={`/recipes/${collection.id}`}>
@@ -90,14 +96,20 @@ const Collection = ({sub}) =>{
                     ) 
                 
                     })}
-        </CollectionSection>
+        </CollectionSection>}
         {collectionList.length > 3 && <ExpandButton>
             {!isExpanded
             ? <CaretDoubleDown size={40} onClick={()=>{setIsExpanded(true)}}/> 
             : <CaretDoubleUp size={40} onClick={()=>{setIsExpanded(false)}}/>}
         </ExpandButton>}
-        <Title>My rates</Title>
-        <CollectionSection>
+        <Title>My Rates</Title>
+
+        {ratedResultList.length == 0 ?
+        <Massage to={"/categories"}>
+        <Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/>
+            No rates yet <ArrowRight size={28}/>
+        </Massage>
+        : <CollectionSection>
         {ratedResultList.map((ratedDrink,index)=>{
                     return (
                         <RecipeContainer order={-index} key={ratedDrink.id} to={`/recipes/${ratedDrink.id}`}>
@@ -108,7 +120,7 @@ const Collection = ({sub}) =>{
                     ) 
                 
                     })}
-        </CollectionSection>
+        </CollectionSection>}
         {ratedList.length > 3 &&
         <ExpandButton>
             {!isRateExpanded
@@ -116,7 +128,12 @@ const Collection = ({sub}) =>{
             : <CaretDoubleUp size={40} onClick={()=>{setIsRateExpanded(false)}}/>}
         </ExpandButton>}
         <Title>My Comments</Title>
-        <CommentSection>
+        {userCommentResultList.length == 0
+        ?<Massage to={"/categories"}>
+        <Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/>
+            No Comments yet <ArrowRight size={28}/>
+        </Massage>
+        :<CommentSection>
         {userCommentResultList.map((commentDrink,index)=>{
                     return (
                         <CommentContainer>
@@ -129,7 +146,7 @@ const Collection = ({sub}) =>{
                     ) 
                 
                     })}
-        </CommentSection>
+        </CommentSection>}
     
         {userCommentsList.length > 3 &&
         <ExpandButton>
@@ -140,6 +157,29 @@ const Collection = ({sub}) =>{
         </Wrapper>
     )
 }
+
+const Massage = styled(Link)`
+    display: flex;
+    color: black;
+    height: 20%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    padding: 3% 0;
+    font-family: "Architects Daughter";
+    font-size: 25px;
+    opacity: 0.4;
+    &:hover{
+        opacity: 0.8;
+        color:black;
+    }
+`
+
+const Face = styled.img`
+    width: 50px;
+`
+
 
 const Wrapper = styled.div`
 display: flex;

@@ -14,14 +14,14 @@ const UserSideBar = () =>{
     
 
     if(state.user){
-        const {picture,name,email} = state.user;
+        const {picture,name,email,nickname} = state.user;
         
         return (
             <Wrapper isHover={isHover} onMouseEnter={()=>{setIsHover(true)}} onMouseLeave={()=>{setIsHover(false)}}>
             <ProfileSection>
                 <ProfilePicture src={picture}/>
                 <Info>
-                    {isHover && <Name>{name}</Name>}
+                    {isHover && <Name>{name.length > nickname.length ? nickname : name}</Name>}
                     {isHover && <Email>{email}</Email>}
                 </Info>
             </ProfileSection>

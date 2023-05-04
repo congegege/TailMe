@@ -128,7 +128,7 @@ const SideBarSection = styled.div`
     width: 28%;
     animation:${sideIn} 0.2s ease-in 1 forwards;
     height: 90vh;
-    z-index: 2;
+    z-index: 13;
 `
 
 const CategorySection = styled.div`

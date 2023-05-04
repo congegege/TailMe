@@ -6,14 +6,12 @@ import CategoryList from "../Category/CategoryList";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRef } from "react";
-import { useContext } from "react";
-import { RecipesContext } from "../Context/RecipesContext";
 
-const Header = () =>{
+
+const CommunityHeader = () =>{
     const { isAuthenticated } = useAuth0();
     const [isCategoryHover , setIsCategoryHover] = useState(false);
     const [scrolledDirection , setScrolledDirection] = useState(null);
-    
 
 
     let lastPosition = useRef(0);
@@ -48,21 +46,18 @@ const Header = () =>{
     
     return (
         <>
-        { scrolledDirection !== "down" &&
-        <Wrapper scrollDirection = {scrolledDirection} >
+        { scrolledDirection !== "down" &&<Wrapper scrollDirection = {scrolledDirection}>
             <Container>
+                <Home to={"/"}>Home</Home>
+                <Category onMouseEnter={()=>{setIsCategoryHover(true)}} to={`/categories`}>Category</Category>
                 <Logo to={"/"} src="https://cdn.discordapp.com/attachments/688213778206294154/1102081298312462356/Aegyoking_minimalist_cocktail_with_a_wizard_hat_and_a_magical_s_2eee772e-47e1-4886-9bc9-954a47860ca0-removebg-preview.png"/>
                 <WebName to={"/"}>Tail.Me</WebName>
-                <Category onMouseEnter={()=>{setIsCategoryHover(true)}} to={`/categories`}>Category</Category>
-                <Community to={"/community"}>Community</Community>
                 <UserSection>
                     {isAuthenticated ? 
                     <LogoutButton/> : <LoginButton/>}
                 </UserSection>
             </Container>
-        {isCategoryHover &&
-        <>
-        
+        {isCategoryHover && 
         <CategorySection onMouseLeave={()=>{setIsCategoryHover(false)}}>
             <TextSection>
                 <CategoryList/>
@@ -78,13 +73,22 @@ const Header = () =>{
                 </PictureContainer>
                 
             </PictureSection>
-        </CategorySection></>}
+        </CategorySection>}
         </Wrapper>}
         </>
     )
 }
 
-
+const Home = styled(Link)`
+    background-color: transparent;
+    color: #c9fbca;
+    position: absolute;
+    left: 2%;
+    
+    &:hover{
+        color: #b3c49a;
+    }
+`
 
 const Wrapper = styled.div`
     position: ${props=>props.scrollDirection =="up" && "fixed"};   
@@ -92,7 +96,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color:#e6e8e6; 
+    background-color: #344e41;
     z-index: 8;
 `
 
@@ -101,15 +105,17 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     font-family: "Nunito Sans";
     font-size: 23px;
     
 `
 
 const Logo = styled(Link)`
+
     width: 120px;
     height: 120px;
-    filter: invert(80%) sepia(10%) saturate(150%) hue-rotate(305deg) brightness(60%) contrast(90%);
+    filter: invert(80%) sepia(10%) saturate(100%) hue-rotate(35deg) brightness(120%) contrast(500%);
     background-size: cover;
     background-image: url("https://cdn.discordapp.com/attachments/688213778206294154/1102081298312462356/Aegyoking_minimalist_cocktail_with_a_wizard_hat_and_a_magical_s_2eee772e-47e1-4886-9bc9-954a47860ca0-removebg-preview.png");
     
@@ -118,29 +124,25 @@ const Logo = styled(Link)`
 const WebName = styled(Link)`
     font-family: "Patrick Hand";
     font-size: 43px;
-    color: #515545;
+    color: #c9fbca;
     margin-right: 2%;
     &:hover{
-        color: #899577;
+        color: #e5ffa3;
     }
 `
 
 const Category = styled(Link)`
     background-color: transparent;
-    color: #77776c;
-    margin-right: 2%;
+    color: #c9fbca;
+    position: absolute;
+    left: 8%;
     
     &:hover{
         color: #b3c49a;
     }
 `
 
-const Community = styled(Link)`
-    color: #77776c;
-    &:hover{
-        color: #b3c49a;
-    }
-`
+
 
 const CategorySection = styled.div`
     position: absolute;
@@ -195,4 +197,4 @@ const PictureContainer = styled(Link)`
     align-items: center;
 `
 
-export default Header
+export default CommunityHeader

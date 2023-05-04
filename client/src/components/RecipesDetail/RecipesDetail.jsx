@@ -9,6 +9,7 @@ import { RecipesContext } from "../Context/RecipesContext";
 import GetComments from "./GetComments";
 import StarRating from "./StarRating";
 import { useAuth0 } from "@auth0/auth0-react";
+import DetailHeader from "../Header/DetailHeader";
 
 
 const RecipesDetail = () =>{
@@ -61,6 +62,8 @@ const RecipesDetail = () =>{
     }
     
     return (
+        <>
+        <DetailHeader/>
         <Wrapper>
             <RecipeContainer>
                 <BasicInfoSection>
@@ -123,6 +126,7 @@ const RecipesDetail = () =>{
         </ReviewSection>
 
         </Wrapper>
+        </>
     )
 }
 
