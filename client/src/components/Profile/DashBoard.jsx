@@ -14,6 +14,9 @@ const DashBoard = () =>{
     const[userCommentsList, setUserCommentsList] = useState(null);
     const {clickedSection,setClickedSection} = useContext(CommunityContext)
 
+
+    
+
     useEffect(()=>{
         fetch(`/api/users/collections/${id}`)
         .then(res=>res.json())
@@ -37,7 +40,7 @@ const DashBoard = () =>{
     }
 
     
-        const {name,picture,email,updated_at} = state.user;
+        const {name,picture,email,updated_at,nickname} = state.user;
         const today = new Date().getTime();
         const joinDate = new Date(updated_at).getTime();
         const joinDays = Math.floor((today-joinDate)/(1000*60*60*24));
@@ -46,7 +49,7 @@ const DashBoard = () =>{
             <>
             <FirstSection>
                 <TextSection>
-                <Greeting>Hello {name},</Greeting>
+                <Greeting>Hello {name.length > nickname.length ? nickname : name},</Greeting>
                 {joinDays !== 0 ? <JoinDays><Days>{joinDays}</Days> days! since you joined, </JoinDays> : <JoinDays>Welcome to join us!</JoinDays>}
                 <JoinDays>Which drink you want for today? </JoinDays>
                 </TextSection>
@@ -57,7 +60,7 @@ const DashBoard = () =>{
                 <UserInfo>
                 <UserProfile src={picture}/>
                     <div>
-                        <Name>{name}</Name>
+                        <Name>{name.length > nickname.length ? nickname : name}</Name>
                         <Email>{email}</Email>
                     
                     </div>
@@ -80,7 +83,7 @@ const DashBoard = () =>{
                     </ActivitySection>
                 </div>
                 <Title>Your collections</Title>
-                <CollectionSection>
+                <CollectionSection isCollected ={collectionList.length == 0}>
                 {collectionList.map((collection,index)=>{
                     if(index < 2){
                         return (
@@ -93,7 +96,9 @@ const DashBoard = () =>{
                     
                 
                     })}
-                    <CheckMoreButton onClick={()=>setClickedSection("Collection")}>To check more<ArrowRight size={28}/></CheckMoreButton>
+                    {collectionList.length == 0 
+                    ?<ExploreMassage to={"/categories"}>No collection yet, explore time!<ArrowRight size={28}/></ExploreMassage> 
+                    : <CheckMoreButton onClick={()=>setClickedSection("Collection")}>To check more<ArrowRight size={28}/></CheckMoreButton>}
             </CollectionSection>
             </Content>
             <CalendarSection><Calendar/></CalendarSection>
@@ -104,6 +109,20 @@ const DashBoard = () =>{
     
     
 }
+
+const ExploreMassage = styled(Link)`
+    color : black;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 2%;
+    opacity: 0.4;
+    font-family: "Comic Neue";
+    &:hover{
+        opacity: 0.8;
+        color:black;
+    }
+`
 
 const CheckMoreButton = styled.button`
     background-color: transparent;
@@ -120,7 +139,7 @@ const CheckMoreButton = styled.button`
 
 const CollectionSection = styled.div`
     width: 85%;
-    display: grid;
+    display: ${props=>props.isCollected ? "flex" : "grid"};
     grid-template-columns: repeat(3, 1fr);
     padding: 3% 0;
     align-items:center;

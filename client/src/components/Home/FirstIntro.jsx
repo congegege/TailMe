@@ -7,7 +7,7 @@ import { useState } from "react";
 const FirstIntro = () =>{
     const textList = Array.from({length: 12}, (value, i) => i);
     const {categoryList} = useContext(RecipesContext);
-    const [isScrollingHover , setIsScrollingHover] = useState(false)
+    const [isScrollingHover , setIsScrollingHover] = useState(false);
     return(
     <Wrapper>
         <TextSection>
@@ -105,7 +105,6 @@ const Inner = styled.div`
     justify-content: space-around;
     animation: ${scrollingTwo} 20s linear infinite ;
     animation-play-state: ${props=>props.ishover && "paused"};
-    
 `
 const InnerTwo = styled.div`
     opacity: 0;

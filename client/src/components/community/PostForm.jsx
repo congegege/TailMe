@@ -8,12 +8,14 @@ import BasicDrinkInfo from "./BasicDrinkInfo";
 import { useRef , useEffect } from "react";
 import LoadingButton from "../Loading/LoadingButton";
 import StepBar from "./StepBar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const PostForm = () =>{
     const {state } = useContext(RecipesContext);
     const {communityState, actions:{createPost , submitPost}, currentPage , setCurrentPage , formData , isClick , setIsClick} = useContext(CommunityContext);
     const postFormRef = useRef();
     const {img} = formData;
+    const {isAuthenticated , loginWithRedirect} = useAuth0();
 
     const formPagesList = [
         <BasicDrinkInfo/>,
@@ -21,7 +23,7 @@ const PostForm = () =>{
         <PictureUpload/>,
     ];
 
-    console.log(communityState)
+    
     const handleSubmit = (event) =>{
         event.preventDefault();
         submitPost()
@@ -63,17 +65,50 @@ const PostForm = () =>{
             <Form ref={postFormRef}>
                 <StepBar />
                 <FormWrapper onSubmit={handleSubmit} >
+                    {isAuthenticated?<>
                     {formPagesList[currentPage]}
                     {communityState.status !== "submit-post"?
                     currentPage == formPagesList.length - 1 &&
                     <Submit disabled={img.length == 0 || img.length == 0 ? true :  false} >submit</Submit>
                     :<LoadingButton/>}
+                    </> : 
+                    <LogInSection><Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/>
+                    <Text>"Oh...Please log in <Login onClick={()=>loginWithRedirect()}>HERE</Login></Text>
+                    <Text>to gain the access for this feature"</Text></LogInSection>}
                 </FormWrapper>
             </Form>
         </Container>
     )
     
 }
+
+const LogInSection = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+`
+
+const Face = styled.img`
+    width: 50px;
+`
+
+const Text = styled.div`
+    font-family: "Architects Daughter";
+    font-size: 30px;
+`
+
+const Login = styled.span`
+color: #dcf9d5;
+text-decoration: underline wavy 2px black;
+    &:hover{
+        color: #eaffb6;
+        cursor: pointer;
+    }
+`
 
 const Container = styled.div`
     position: fixed;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
+import {ArrowRight} from "@phosphor-icons/react"
 
 const RandomRecommendation = () =>{
      //maximum 15 ingredients created the array from 1 to 15 so that we can map through the list
@@ -23,6 +24,8 @@ const RandomRecommendation = () =>{
         }
         
     })
+
+    console.log(ingredients)
     
     return (
         <>
@@ -37,19 +40,22 @@ const RandomRecommendation = () =>{
                         <DrinkName ><Title>" Tail me, </Title>{randomRecipe.strDrink}"
                         </DrinkName>
                         <IngredientSection >
-                        {ingredients.map((ingredient)=>{
+                        {ingredients.map((ingredient,index)=>{
                             let ingredientKey = "strIngredient" + ingredient ;
                             let measureKey = "strMeasure" + ingredient ;
-                            
+                            if(index <= 5){
                                 return (
                                     <SingleIngredient key={ingredientKey}>
                                     <div >{randomRecipe[ingredientKey]} :</div>
                                     {randomRecipe[measureKey] && <Measurement>{randomRecipe[measureKey]}</Measurement>}
                                     </SingleIngredient>
                                 )
+                            }
+                            
                         
                         })}
                         </IngredientSection>
+                        {ingredients.length > 6 && <Message><ArrowRight size={30}/>More Ingredients</Message>}
                         </InfoSection>
                         
                     </TextSection>
@@ -59,6 +65,16 @@ const RandomRecommendation = () =>{
         </>
     )
 }
+
+const Message = styled.div`
+    align-self:flex-end;
+    font-size: 30px;
+    margin-right: 5%;
+    display: flex;
+    align-items: center;
+    font-family: "Patrick Hand";
+    color: #e9f5db;
+`
 
 const Wrapper = styled.div`
     display: flex;

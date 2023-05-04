@@ -9,7 +9,7 @@ const CommunityCollectButton = ({id,recipeInfo}) =>{
     const {state} = useContext(RecipesContext);
 
     //limit user acces when they are not login
-    const {isAuthenticated} = useAuth0();
+    const {isAuthenticated , loginWithRedirect} = useAuth0();
     
     const handleClick = () =>{
         if(state && recipeInfo){
@@ -31,7 +31,7 @@ const CommunityCollectButton = ({id,recipeInfo}) =>{
         }
     }
 
-    return <Collect onClick={handleClick} disabled={isAuthenticated ? false : true}>Collect</Collect>
+    return <>{isAuthenticated ?<Collect onClick={handleClick}>Collect</Collect> : <Collect onClick={()=>loginWithRedirect()}>Collect</Collect> }</>
 }
 
 const Collect =styled.button`
@@ -49,13 +49,7 @@ const Collect =styled.button`
         color: #f5ebe0;
         
     }
-    &:disabled{
-        background-color: #e3d5ca;
-        border: 2px solid #d5bdaf;
-        color: black;
-        opacity: 0.4;
-        cursor:not-allowed;
-    }
+    
 `
 
 export default CommunityCollectButton;

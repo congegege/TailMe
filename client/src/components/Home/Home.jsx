@@ -34,6 +34,6 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-    margin-top: 120px;
+    
 `
 export default Home
