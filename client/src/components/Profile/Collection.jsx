@@ -3,6 +3,7 @@ import { useEffect,useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowRight } from "@phosphor-icons/react";
+import CategoryLoading from "../Loading/CategoryLoading";
 
 const Collection = ({sub}) =>{
     const[collectionList,setCollectionList] = useState(null);
@@ -31,7 +32,7 @@ const Collection = ({sub}) =>{
     },[])
 
     if(!collectionList || !ratedList || !userCommentsList){
-        return <>Loading</>
+        return <CategoryLoading/>
     }
 
     const collectionResultList = collectionList.filter((collection,index)=>{

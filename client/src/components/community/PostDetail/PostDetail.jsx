@@ -8,6 +8,8 @@ import { RecipesContext } from "../../Context/RecipesContext";
 import Parser from "html-react-parser"
 import { useAuth0 } from "@auth0/auth0-react";
 import DetailHeader from "../../Header/DetailHeader";
+import Loading from "../../Loading/Loading";
+import Footer from "../../Footer/Footer";
 
 
 const PostDetail = () =>{
@@ -28,12 +30,12 @@ const PostDetail = () =>{
     
     if(isAuthenticated){
         if(!singlePostInfo || !state.user){
-            return <>Loading</>
+            return <Loading/>
         }
     }
     else{
         if(!singlePostInfo){
-            return <>Loading</>
+            return <Loading/>
         }
     }
     
@@ -64,12 +66,15 @@ const PostDetail = () =>{
             
         <CommunityCollectButton id={id} recipeInfo = {singlePostInfo}/>
         </RecipeInfoSection>
+        
         </Wrapper>
+        <Footer/>
         </>
     )
 }
 
 const Wrapper = styled.div`
+    padding-bottom:5% ;
     display: grid;
     grid-template-columns:  1fr 9fr;
     align-items: center;

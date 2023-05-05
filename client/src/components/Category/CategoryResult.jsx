@@ -4,6 +4,7 @@ import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
 import Header from "../Header/Header";
+import CategoryLoading from "../Loading/CategoryLoading";
 import SideBar from "./SideBar";
 
 
@@ -17,17 +18,25 @@ const CategoryResult = () => {
     //the array that contain all the query value, ex:["cocktail"."Alcoholic"]
     const queryList = Array.from(searchParams.values());
     //judge whether the user click on the button filter when click the sidebar will be displayed
-    const {setIsClicked, isClicked} = useContext(RecipesContext)
+    const {setIsClicked, isClicked} = useContext(RecipesContext);
+
+    const [isLoading, setIsLoading] = useState(false);
     
     //fetch the related recipes by query
     useEffect(()=>{
+        setIsLoading(true)
         setSearchParams(searchParams.toString())
         fetch(`/api/categories/recipes?${searchParams.toString()}`)
         .then(res=>res.json())
-        .then(resData=>setCategoryRecipes(resData.data))
+        .then(resData=>{
+            setIsLoading(false);
+            setCategoryRecipes(resData.data)
+        })
     },[query])
 
-    console.log(categoryRecipes)
+    if(!categoryRecipes || isLoading){
+        return <CategoryLoading/>
+    }
 
     return (
         <>

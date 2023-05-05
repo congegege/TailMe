@@ -3,6 +3,7 @@ import { Link  } from "react-router-dom";
 import {CaretDoubleDown,CaretDoubleUp} from "@phosphor-icons/react";
 import styled from "styled-components";
 import { ArrowRight } from "@phosphor-icons/react";
+import CategoryLoading from "../Loading/CategoryLoading";
 
 const CommunitySection = ({sub}) =>{
     const [isExpanded , setIsExpanded] = useState(false);
@@ -29,7 +30,7 @@ const CommunitySection = ({sub}) =>{
     console.log(communityCollectionList,communityPostList)
 
     if(!communityCollectionList || !communityPostList){
-        return <>Loading</>
+        return <CategoryLoading/>
     }
 
     const communityResultList = communityCollectionList.filter((community,index)=>{
