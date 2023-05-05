@@ -4,6 +4,7 @@ import { CommunityContext } from '../Context/CommunityContext';
 import styled from 'styled-components';
 import { RecipesContext } from '../Context/RecipesContext';
 import { Link } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 
 const UserSideBar = () =>{
@@ -43,9 +44,7 @@ const UserSideBar = () =>{
     
     else{
         return (
-            <>
-            Loading
-            </>
+            <Loading/>
         )
     }
     

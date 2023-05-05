@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
-import {ArrowRight} from "@phosphor-icons/react"
+import {ArrowRight} from "@phosphor-icons/react";
+import Loading from "../Loading/Loading";
 
-const RandomRecommendation = () =>{
+const RandomRecommendation = ({randomRecipe}) =>{
      //maximum 15 ingredients created the array from 1 to 15 so that we can map through the list
     const ingredientsNumList = Array.from({length: 15}, (value, i) => i + 1)
-
-    const [randomRecipe,setRandomRecipe] = useState(null);
     const [isHover ,  setIsHover] = useState(false);
-    console.log(isHover)
-
-    useEffect(()=>{
-        fetch("/api/randomCocktail")
-        .then(res=>res.json())
-        .then(resData=>setRandomRecipe(resData.data))
-    },[])
 
     let ingredients = ingredientsNumList.filter((num)=>{
         if(randomRecipe){
@@ -25,8 +17,6 @@ const RandomRecommendation = () =>{
         
     })
 
-    console.log(ingredients)
-    
     return (
         <>
         {randomRecipe &&

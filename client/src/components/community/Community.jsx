@@ -6,6 +6,9 @@ import PostForm from './PostForm';
 import styled, { css, keyframes } from 'styled-components';
 import { CaretDown } from '@phosphor-icons/react';
 import CommunityHeader from '../Header/CommunityHeader';
+import CategoryLoading from '../Loading/CategoryLoading';
+import Footer from '../Footer/Footer';
+
 
 
 const Community = () =>{
@@ -34,6 +37,10 @@ const Community = () =>{
             setSearchParams(searchParams.toString())
         }
         setIsFilter(false)
+    }
+
+    if(!allPostsList){
+        return<CategoryLoading/>
     }
 
     return (
@@ -86,6 +93,7 @@ const Community = () =>{
         </PostContainer>
         {isClick &&<PostForm/>}
         </Content>
+        <Footer/>
         </Wrapper>
     )
     

@@ -10,6 +10,8 @@ import GetComments from "./GetComments";
 import StarRating from "./StarRating";
 import { useAuth0 } from "@auth0/auth0-react";
 import DetailHeader from "../Header/DetailHeader";
+import Loading from "../Loading/Loading";
+import Footer from "../Footer/Footer";
 
 
 const RecipesDetail = () =>{
@@ -52,12 +54,12 @@ const RecipesDetail = () =>{
     //will replace with loading componet , put it there first to avoid the error
     if(isAuthenticated){
         if(!recipeInfo || !state.user){
-            return <>Loading</>
+            return <Loading/>
         }
     }
     else{
         if(!recipeInfo){
-            return <>Loading</>
+            return <Loading/>
         }
     }
     
@@ -126,6 +128,7 @@ const RecipesDetail = () =>{
         </ReviewSection>
 
         </Wrapper>
+        <Footer/>
         </>
     )
 }

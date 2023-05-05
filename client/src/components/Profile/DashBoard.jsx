@@ -6,6 +6,8 @@ import { useParams ,Link } from "react-router-dom";
 import { ArrowRight } from "@phosphor-icons/react";
 import { CommunityContext } from "../Context/CommunityContext";
 
+import CategoryLoading from "../Loading/CategoryLoading";
+
 const DashBoard = () =>{
     const {id} = useParams()
     const {state} = useContext(RecipesContext);
@@ -36,7 +38,7 @@ const DashBoard = () =>{
     },[])
 
     if(!collectionList || !ratedList || !userCommentsList || !state.user){
-        return <>Loading</>
+        return <CategoryLoading/>
     }
 
     

@@ -17,10 +17,6 @@ const AverageRate = ({id,averageRate,setAverageRate}) =>{
         .then(resData=>setAverageRate(resData.data))
     },[isRate])
 
-    if(!id){
-        return <>Loading</>
-    }
-
 return (
     <>
     {averageRate && !averageRate == 0 &&

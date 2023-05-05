@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { CommunityContext } from "../Context/CommunityContext";
 import CommunitySection from "./CommunitySection";
 import DashBoard from "./DashBoard";
+import Loading from "../Loading/Loading";
 
 const Profile = () =>{
     const {state} = useContext(RecipesContext);
@@ -27,7 +28,7 @@ const Profile = () =>{
         )
     }
     else{
-        return <>Loading</>
+        return <Loading/>
     }
 }
 

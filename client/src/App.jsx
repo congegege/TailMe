@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import GlobalStyle from "./components/GlobalStyle";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer";
 import Home from "./components/Home/Home";
 import RecipesDetail from"./components/RecipesDetail/RecipesDetail";
 import { useEffect , useContext } from "react";
@@ -11,6 +9,7 @@ import Profile from "./components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import Community from "./components/Community/Community";
 import PostDetail from "./components/Community/PostDetail/PostDetail";
+
 
 const App = () => {
   const {setCategoryList,setRecipesList,actions:{userLogIn}} = useContext(RecipesContext);
@@ -47,8 +46,9 @@ const App = () => {
       <Route path="/profile/:id" element = {<Profile/>}/>
       <Route path="/community" element = {<Community/>}/>
       <Route path="/community/:id" element = {<PostDetail/>}/>
+      
     </Routes>
-    <Footer/>
+    
     </>
   )
 }
