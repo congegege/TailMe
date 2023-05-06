@@ -7,8 +7,8 @@ const Footer = () =>{
     return (
     <Wrapper>
         <SectionOne>
-            <FooterLink>Policy</FooterLink>
-            <FooterLink>Terms</FooterLink>
+            <FooterLink to={"/policy"}>Policy</FooterLink>
+            <FooterLink to={"/contact"}>Contact</FooterLink>
         </SectionOne>
         
         <LogoSection>
@@ -17,7 +17,7 @@ const Footer = () =>{
         </LogoSection>
 
         <SectionTwo>
-            <FooterLink>Contact</FooterLink>
+            
             <GithubLink to={"https://github.com/congegege/Final-Project"}><GithubLogo size={40} />Github</GithubLink>
         </SectionTwo>
 
@@ -74,7 +74,7 @@ const WebName = styled(Link)`
 
 const FooterLink = styled(Link)`
     font-family: "Patrick Hand";
-    font-size: 25px;
+    font-size: 20px;
     color: #ecfdba;
     &:hover{
         color: #c7ffce;

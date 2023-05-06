@@ -9,6 +9,8 @@ import Profile from "./components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import Community from "./components/Community/Community";
 import PostDetail from "./components/Community/PostDetail/PostDetail";
+import ContactUs from "./components/Footer/ContactUs";
+import Policy from "./components/Footer/Policy";
 
 
 const App = () => {
@@ -46,6 +48,8 @@ const App = () => {
       <Route path="/profile/:id" element = {<Profile/>}/>
       <Route path="/community" element = {<Community/>}/>
       <Route path="/community/:id" element = {<PostDetail/>}/>
+      <Route path="/contact" element = {<ContactUs/>}/>
+      <Route path="/policy" element = {<Policy/>}/>
       
     </Routes>
     
