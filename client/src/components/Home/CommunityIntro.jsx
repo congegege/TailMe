@@ -20,15 +20,21 @@ const CommunityIntro = () =>{
             <br/>
             They are sharing their own recipes here too."</Content>
             <UserSection>
+                <PictureSection>
             {postUser && postUser.map((userPicture)=>{
                 return <User src={userPicture["_id"]}/>
             })}
+            </PictureSection>
             </UserSection>
             <Explore to={`/community`}>Join Now<NavigationArrow size={30} weight="bold"/></Explore>
         </TextArea>
         </Wrapper>
     )
 }
+
+const PictureSection = styled.div`
+    display: flex;
+`
 
 const Wrapper = styled.div`
     width: 100%;

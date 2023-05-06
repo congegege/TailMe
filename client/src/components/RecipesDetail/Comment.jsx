@@ -3,16 +3,21 @@ import { useState } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 import styled, { keyframes } from "styled-components";
 import {X} from "@phosphor-icons/react"
+import DetailLoadingButton from "../Loading/DetailLoadingButton";
 
 const PostComment = ({id,setIsPosted,setIsClick}) =>{
     //to store the comment when user typing
     const [comment,setComment] = useState("");
+
+    //shows when fetching the data
+    const [isLoading , setIsLoading] = useState(false);
     
     //to get the user info
     const {state} = useContext(RecipesContext);
     
     //onclick function to post the comment to the database
     const handleClick = () =>{
+        setIsLoading(true)
         if(state){
             const {name,picture,sub} = state.user
             fetch("/api/comments",{
@@ -30,6 +35,10 @@ const PostComment = ({id,setIsPosted,setIsClick}) =>{
                 setIsPosted(true);
                 //clean the textarea when the comment is posted
                 setComment("");
+                //close the comment text area after the post is done
+                setIsClick(false);
+                //loading is done when the data is here
+                setIsLoading(false);
             })
         }
             
@@ -44,7 +53,11 @@ const PostComment = ({id,setIsPosted,setIsClick}) =>{
             <ExitIcon onClick={()=>{setIsClick(false)}}><X size={30}/></ExitIcon>
         </BasicInfo>
         <Comment placeholder="It taste..." onChange={(ev)=>{setComment(ev.target.value);setIsPosted(false)}} value={comment}/>
-        <PostButton onClick={handleClick} disabled={!comment ? true : false}>Post</PostButton>
+        <PostButton onClick={handleClick} disabled={!comment ? true : false}>
+            {!isLoading
+            ?<span>Post</span>
+            :<DetailLoadingButton/>}
+        </PostButton>
 
         {/* subcomponent to get all the other comments underneath the same drink */}
         </Wrapper>
@@ -102,6 +115,9 @@ const PostButton = styled.button`
     border: 2px solid green;
     color: beige;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover{
         color: #354f52;

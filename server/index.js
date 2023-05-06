@@ -9,7 +9,8 @@ const {postComment,getComments} = require("./handlers/commentHandler");
 const {getAlcoholicIngredients , getNonAlcoholicIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers,getRandomUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
-const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
+const {postCommunityCollection , getCommunityCollections,deleteCollectedCommunityCollection,getUserCommunityCollectedCollection} = require("./handlers/communityCollection")
+const {postCollection, getCollections , getUserCollectedCollection,deleteCollectedCollection} = require("./handlers/collectionHandler");
 const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler");
 const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler");
 const {getAllPopularDrink} = require("./handlers/popularDrinkHandler")
@@ -36,7 +37,7 @@ app.get("/api/cocktails/alcoholic", getAllAlcoholic);
 //get all the Non-alcoholic recipes no
 app.get("/api/cocktails/non_alcoholic", getAllNonAlcoholic);
 
-//for ingresients
+//for ingresients(strech)
 //getting alcoholic ingredients
 app.get("/api/AlcoholicIngredients",getAlcoholicIngredients);
 //getting nonAlcoholic ingredients
@@ -69,6 +70,14 @@ app.get("/api/users/communityCollections/:sub",getCommunityCollections);
 app.post("/api/users/collections",postCollection);
 //add the community post into the collection list
 app.post("/api/users/communityCollections",  postCommunityCollection);
+//check whether this drink is collected or not
+app.post("/api/users/collectedCollections",getUserCollectedCollection);
+//check whether this drink is collected or not
+app.post("/api/users/collectedCommunityCollections",getUserCommunityCollectedCollection);
+// to delete the collection that user collected
+app.delete("/api/users/deleteCollectedCollections",deleteCollectedCollection)
+// to delete the collection that user collected
+app.delete("/api/users/deleteCollectedCommunityCollections",deleteCollectedCommunityCollection)
 
 //for community
 //to get the posts underneat certain query
