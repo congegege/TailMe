@@ -43,9 +43,9 @@ return (
                 <PostComment id={id} setIsPosted={setIsPosted} setIsClick={setIsClick}/>
             </PostReview>}
             {commentList ?
-        commentList.map((comment ,  index)=>{
+            <ReviewList>
+        {commentList.map((comment ,  index)=>{
             const{content,name,picture,date} = comment;
-            console.log(picture)
             return (
                 <ReviewSection key={index}>
                     <BasicInfo>
@@ -57,7 +57,8 @@ return (
                 </ReviewSection>
                 )
         
-        })
+        })}
+        </ReviewList>
         :
         <NoReviews>No reviews yet</NoReviews>}
         </ReviewContainer>
@@ -66,6 +67,11 @@ return (
     </Wrapper>
 )
 }
+
+const ReviewList = styled.div`
+    display: flex;
+    flex-direction: column-reverse;
+`
 
 const Wrapper = styled.div`
     display: flex;
@@ -117,6 +123,7 @@ width: 40%;
 const ReviewContainer = styled.div`
     width: 50%;
     padding: 5% 0;
+    
 `
 
 const Title = styled.h1`

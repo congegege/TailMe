@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams , Link } from "react-router-dom";
+import { useParams , Link , useNavigate } from "react-router-dom";
 import AverageRate from "./AverageRate";
 import CollectButton from "./CollectButton";
 import styled, { keyframes } from "styled-components";
@@ -12,6 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import DetailHeader from "../Header/DetailHeader";
 import Loading from "../Loading/Loading";
 import Footer from "../Footer/Footer";
+import {ArrowLeft} from "@phosphor-icons/react"
 
 
 const RecipesDetail = () =>{
@@ -33,6 +34,8 @@ const RecipesDetail = () =>{
     const [averageRate ,  setAverageRate] = useState(null);
     //limit the access if use is not login
     const {isAuthenticated} = useAuth0();
+
+    const navigate = useNavigate();
 
 
     let ingredients = ingredientsNumList.filter((num)=>{
@@ -67,6 +70,7 @@ const RecipesDetail = () =>{
         <>
         <DetailHeader/>
         <Wrapper>
+            <GoBackButton onClick={()=>navigate(-1)}><ArrowLeft size={40} /></GoBackButton>
             <RecipeContainer>
                 <BasicInfoSection>
                     <Title>
@@ -137,6 +141,24 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #fdfbec;
+`
+
+const GoBackButton = styled.div`
+    position: absolute;
+    left: 3%;
+    margin-top: 2%;
+    color: #08361b;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    &:hover{
+        cursor: pointer;
+        color: #f1faf5;
+        background-color: #08361b9e;
+        border-radius: 50%;
+        
+    }
 `
 
 const RecipeContainer = styled.div`

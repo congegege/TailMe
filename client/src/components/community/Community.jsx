@@ -122,6 +122,18 @@ const IntroSection = styled.div`
     justify-content: center;
 `
 
+const backgroundMove = keyframes`
+    0%{
+        background-position: 0% 0%;
+    }
+    50%{
+        background-position: 50% 100%;
+    }
+    100%{
+        background-color: 0% 0%;
+    }
+`
+
 const TextSection = styled.div`
     background-image: url(https://img.freepik.com/free-photo/water-drops-surface-background_395237-134.jpg?w=1480&t=st=1682662890~exp=1682663490~hmac=14cdbe8daaf270d3f0942d643e8b449b74fc7cf6c30d8c61e6af08d488c51ab5);
     font-size:90px;
@@ -132,6 +144,8 @@ const TextSection = styled.div`
     -webkit-background-clip: text;
     display: flex;
     flex-direction: column;
+    background-size: 120%;
+    animation: ${backgroundMove} 10s cubic-bezier(0.3,0,0.2,1.5) infinite;
 `
 
 const Right = styled.div`

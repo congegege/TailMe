@@ -2,13 +2,16 @@ import { useEffect,useState } from "react";
 import { Link  } from "react-router-dom";
 import {CaretDoubleDown,CaretDoubleUp} from "@phosphor-icons/react";
 import styled from "styled-components";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRight , X } from "@phosphor-icons/react";
 import CategoryLoading from "../Loading/CategoryLoading";
+import DeleteLoadingButton from "../Loading/DeleteLoadingButton";
 
 const CommunitySection = ({sub}) =>{
     const [isExpanded , setIsExpanded] = useState(false);
     const[communityCollectionList,setCommunityCollectionList] = useState([]);
     const[communityPostList, setCommunityPostList] = useState(null);
+    const [isLoading , setIsLoading] = useState (false);
+    const [clickedRecipe , setClickedRecipe] = useState(null);
 
 
     useEffect(()=>{
@@ -16,18 +19,17 @@ const CommunitySection = ({sub}) =>{
         .then(res=>res.json())
         .then(resData=>{
             if(resData.data){
-                setCommunityCollectionList(resData.data)
+                setCommunityCollectionList(resData.data);
             }
+            setIsLoading(false)
         })
-    },[])
+    },[isLoading])
 
     useEffect(()=>{
         fetch(`/api/community/userPosts/${sub}`)
         .then(res=>res.json())
         .then(resData=>setCommunityPostList(resData.data))
     },[])
-
-    console.log(communityCollectionList,communityPostList)
 
     if(!communityCollectionList || !communityPostList){
         return <CategoryLoading/>
@@ -63,6 +65,24 @@ const CommunitySection = ({sub}) =>{
         
     })
 
+    const handleCollectionDelete = (id) =>{
+        setIsLoading(true);
+        setClickedRecipe(id);
+            fetch("/api/users/deleteCollectedCommunityCollections",{
+                method:"DELETE",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id:id,sub:sub
+                }),
+            })
+            .then((res)=>res.json())
+            .then((resData)=>{
+                
+            })
+    }
+
     return(
         <Wrapper>
         <Title>My collection</Title>
@@ -74,9 +94,16 @@ const CommunitySection = ({sub}) =>{
         :<CollectionSection>
         {communityResultList.map((post,index)=>{
                     return (
-                        <RecipeContainer order={-index} key={post.id} to={`/community/${post.id}`}>
-                        <RecipePicture src={post.img}/>
-                        <DrinkName>{post.strDrink}</DrinkName>
+                        <RecipeContainer order={-index} key={post.id} >
+                        <RecipeLink to={`/community/${post.id}`}>
+                            <RecipePicture src={post.img}/>
+                            <DrinkName>{post.strDrink}</DrinkName>
+                        </RecipeLink>
+
+                        <DeleteButton onClick={()=>handleCollectionDelete(post.id)}>
+                            {isLoading && clickedRecipe == post.id ? <DeleteLoadingButton/> : <X size={40} weight="bold" />}
+                        </DeleteButton>
+
                         </RecipeContainer>
                     ) 
                 
@@ -112,6 +139,19 @@ const CommunitySection = ({sub}) =>{
         </Wrapper>
     )
 }
+const RecipeLink = styled(Link)`
+    
+`
+
+const DeleteButton = styled.div`
+    position: absolute;
+    top: 2px;
+    right: 30px;
+    color: #631d2066;
+    &:hover{
+        color: #6d282c;
+    }
+`
 
 const Massage = styled(Link)`
     display: flex;

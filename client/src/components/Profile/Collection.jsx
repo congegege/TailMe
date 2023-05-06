@@ -2,8 +2,9 @@ import {CaretDoubleDown,CaretDoubleUp} from "@phosphor-icons/react";
 import { useEffect,useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRight , X } from "@phosphor-icons/react";
 import CategoryLoading from "../Loading/CategoryLoading";
+import DeleteLoadingButton from "../Loading/DeleteLoadingButton";
 
 const Collection = ({sub}) =>{
     const[collectionList,setCollectionList] = useState(null);
@@ -12,12 +13,17 @@ const Collection = ({sub}) =>{
     const [isExpanded , setIsExpanded] = useState(false);
     const [isRateExpanded , setIsRateExpanded] = useState(false);
     const [isCommentExpanded , setIsCommentExpanded] = useState(false);
+    const [isLoading , setIsLoading] = useState (false);
+    const [clickedRecipe , setClickedRecipe] = useState(null);
 
     useEffect(()=>{
         fetch(`/api/users/collections/${sub}`)
         .then(res=>res.json())
-        .then(resData=>setCollectionList(resData.data))
-    },[])
+        .then(resData=>{
+            setCollectionList(resData.data);
+            setIsLoading(false)
+        })
+    },[isLoading])
 
     useEffect(()=>{
         fetch(`/api/ratedDrink/${sub}`)
@@ -30,6 +36,8 @@ const Collection = ({sub}) =>{
         .then(res=>res.json())
         .then(resData=>setUserCommentsList(resData.data))
     },[])
+
+    
 
     if(!collectionList || !ratedList || !userCommentsList){
         return <CategoryLoading/>
@@ -66,8 +74,10 @@ const Collection = ({sub}) =>{
     
     const userCommentResultList = userCommentsList.filter((commentDrink,index)=>{
         if(userCommentsList.length > 3){
+            
             if(!isCommentExpanded){
-                return  index >= commentDrink.length - 3
+                
+                return  index >= userCommentsList.length - 1
             }
             else{
                 return commentDrink
@@ -75,9 +85,28 @@ const Collection = ({sub}) =>{
         }
         
         else{
+            
             return commentDrink
         }
     })
+    console.log(userCommentResultList)
+    const handleCollectionDelete = (id) =>{
+        setIsLoading(true);
+        setClickedRecipe(id);
+            fetch("/api/users/deleteCollectedCollections",{
+                method:"DELETE",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id:id,sub:sub
+                }),
+            })
+            .then((res)=>res.json())
+            .then((resData)=>{
+                
+            })
+    }
 
     return(
         <Wrapper>
@@ -90,9 +119,15 @@ const Collection = ({sub}) =>{
         : <CollectionSection>
         {collectionResultList.map((collection,index)=>{
                     return (
-                        <RecipeContainer order={-index} key={collection.id} to={`/recipes/${collection.id}`}>
-                        <RecipePicture src={collection.strDrinkThumb}/>
-                        <DrinkName>{collection.strDrink}</DrinkName>
+                        <RecipeContainer order={-index} key={collection.id} >
+                            <RecipeLink  to={`/recipes/${collection.id}`}>
+                                <RecipePicture src={collection.strDrinkThumb}/>
+                                <DrinkName>{collection.strDrink}</DrinkName>
+                            </RecipeLink>
+                        
+                        <DeleteButton onClick={()=>handleCollectionDelete(collection.id)}>
+                            {isLoading && clickedRecipe == collection.id ? <DeleteLoadingButton/> : <X size={40} weight="bold" />}
+                        </DeleteButton>
                         </RecipeContainer>
                     ) 
                 
@@ -129,7 +164,7 @@ const Collection = ({sub}) =>{
             : <CaretDoubleUp size={40} onClick={()=>{setIsRateExpanded(false)}}/>}
         </ExpandButton>}
         <Title>My Comments</Title>
-        {userCommentResultList.length == 0
+        {userCommentsList.length == 0
         ?<Massage to={"/categories"}>
         <Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/>
             No Comments yet <ArrowRight size={28}/>
@@ -137,8 +172,8 @@ const Collection = ({sub}) =>{
         :<CommentSection>
         {userCommentResultList.map((commentDrink,index)=>{
                     return (
-                        <CommentContainer>
-                        <PictureContainer order={-index} key={commentDrink.id} to={`/recipes/${commentDrink.id}`}>
+                        <CommentContainer order={-index}>
+                        <PictureContainer  key={commentDrink.id} to={`/recipes/${commentDrink.id}`}>
                         <Picture src={commentDrink.drinkImage}/>
                         <DrinkName>{commentDrink.drinkName}</DrinkName>
                         </PictureContainer>
@@ -149,7 +184,7 @@ const Collection = ({sub}) =>{
                     })}
         </CommentSection>}
     
-        {userCommentsList.length > 3 &&
+        {userCommentsList.length > 1 &&
         <ExpandButton>
             {!isCommentExpanded
             ? <CaretDoubleDown size={40} onClick={()=>{setIsCommentExpanded(true)}}/> 
@@ -158,6 +193,8 @@ const Collection = ({sub}) =>{
         </Wrapper>
     )
 }
+
+
 
 const Massage = styled(Link)`
     display: flex;
@@ -202,6 +239,7 @@ const CommentContainer = styled.div`
     gap: 20%;
     align-items: center;
     margin: 2% 0;
+    order: ${props=>props.order};
 `
 
 const Comment = styled.div`
@@ -216,6 +254,7 @@ const PictureContainer = styled(Link)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 `
 
 const Picture = styled.img`
@@ -250,6 +289,20 @@ const RecipeContainer = styled(Link)`
     flex-direction: column;
     align-items: center;
     position: relative;
+`
+
+const RecipeLink = styled(Link)`
+    
+`
+
+const DeleteButton = styled.div`
+    position: absolute;
+    top: 2px;
+    right: 30px;
+    color: #631d2066;
+    &:hover{
+        color: #6d282c;
+    }
 `
 
 const Rate = styled.div`

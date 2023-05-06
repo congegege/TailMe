@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { useEffect ,  useState } from "react";
 import CommunityCollectButton from "./CommunityCollectButton";
 import styled, { keyframes } from "styled-components";
@@ -10,6 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import DetailHeader from "../../Header/DetailHeader";
 import Loading from "../../Loading/Loading";
 import Footer from "../../Footer/Footer";
+import {ArrowLeft} from "@phosphor-icons/react"
 
 
 const PostDetail = () =>{
@@ -17,6 +18,7 @@ const PostDetail = () =>{
     const [singlePostInfo , setSinglePostInfo] = useState(null);
     const {state} = useContext(RecipesContext);
     const {isAuthenticated} = useAuth0();
+    const navigate = useNavigate();
     
     useEffect(()=>{
         fetch(`/api/community/posts/${id}`)
@@ -25,7 +27,7 @@ const PostDetail = () =>{
             setSinglePostInfo(resData.data);
             
         })
-    },[singlePostInfo])
+    },[])
 
     
     if(isAuthenticated){
@@ -44,7 +46,7 @@ const PostDetail = () =>{
         <>
         <DetailHeader/>
         <Wrapper>
-            
+        <GoBackButton onClick={()=>navigate(-1)}><ArrowLeft size={40} /></GoBackButton>
             <PictureContainer>
                 <RecipePicture src={singlePostInfo.img}/>
             </PictureContainer>
@@ -81,6 +83,24 @@ const Wrapper = styled.div`
     justify-items: center;
     background-color: #fdfbec;
     position: relative;
+`
+
+const GoBackButton = styled.div`
+    position: absolute;
+    left: 5%;
+    top: 4%;
+    color: #08361b;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    &:hover{
+        cursor: pointer;
+        color: #f1faf5;
+        background-color: #08361b9e;
+        border-radius: 50%;
+        
+    }
 `
 
 const RecipeInfoSection = styled.div`
@@ -127,7 +147,7 @@ const PictureContainer = styled.div`
 const RecipePicture = styled.img`
     height: 400px;
     border-radius: 50%;
-    position: relative;
+    
 
 `
 
