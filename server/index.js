@@ -6,7 +6,7 @@ const port = 3000
 //import handlers
 const {getAllRecipes,getCategoryRecipe,getRandomRecipe,getCategory,getAllAlcoholic,getAllNonAlcoholic,getSingleRecipe} = require ("./handlers/recipeHandler.js");
 const {postComment,getComments} = require("./handlers/commentHandler");
-const {getIngredients} = require("./handlers/ingredientsHandler");
+const {getAlcoholicIngredients , getNonAlcoholicIngredients} = require("./handlers/ingredientsHandler");
 const {getUsers,getRandomUsers} = require("./handlers/userHandler");
 const {postRate,getRateAverage,getUserRate} = require("./handlers/rateHandler");
 const {postCollection, getCollections , postCommunityCollection , getCommunityCollections} = require("./handlers/collectionHandler");
@@ -36,8 +36,11 @@ app.get("/api/cocktails/alcoholic", getAllAlcoholic);
 //get all the Non-alcoholic recipes no
 app.get("/api/cocktails/non_alcoholic", getAllNonAlcoholic);
 
-//for Ingredients no
-app.get("/api/ingredients/:name",getIngredients);
+//for ingresients
+//getting alcoholic ingredients
+app.get("/api/AlcoholicIngredients",getAlcoholicIngredients);
+//getting nonAlcoholic ingredients
+app.get("/api/NonAlcoholicIngredients",getNonAlcoholicIngredients);
 
 //for rating
 //get the rate average
