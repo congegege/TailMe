@@ -13,7 +13,8 @@ const {postCommunityCollection , getCommunityCollections,deleteCollectedCommunit
 const {postCollection, getCollections , getUserCollectedCollection,deleteCollectedCollection} = require("./handlers/collectionHandler");
 const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler");
 const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler");
-const {getAllPopularDrink} = require("./handlers/popularDrinkHandler")
+const {getAllPopularDrink} = require("./handlers/popularDrinkHandler");
+const {postContactForm} = require("./handlers/contactFormHandler")
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -99,6 +100,9 @@ app.get("/api/community/userPosts/:sub", getUserPosts);
 //for popular Drink
 // to get all the popular Drink
 app.get("/api/popularDrink", getAllPopularDrink)
+
+//for contact me form
+app.post("/api/contact", postContactForm)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

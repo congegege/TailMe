@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
+import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import CategoryLoading from "../Loading/CategoryLoading";
 import SideBar from "./SideBar";
@@ -73,7 +74,7 @@ const CategoryResult = () => {
             <NoResult>No Result<Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/> </NoResult>
             <Message to={"/community"}>Explore our <Part>community</Part> to discover more</Message>
             </NoResultContainer>}
-
+            <Footer/>
         </Container>
         </>
         
