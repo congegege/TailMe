@@ -10,33 +10,43 @@ import RandomRecommendation from "./RandomRecommendation";
 import SecondIntro from "./SecondIntro";
 import { RecipesContext } from "../Context/RecipesContext";
 import Footer from "../Footer/Footer";
+import Error from "../error/Error";
 
 const Home = () =>{
+    //get the randomRecipe Info
     const [randomRecipe,setRandomRecipe] = useState(null);
+    //get the category List
     const {categoryList} = useContext(RecipesContext);
+    //set the error when catch one
+    const [isError,setIsError] = useState(false);
 
+    //get the randomRecipe Info
     useEffect(()=>{
         fetch("/api/randomCocktail")
         .then(res=>res.json())
         .then(resData=>setRandomRecipe(resData.data))
+        .catch(err=>setIsError(true))
     },[])
 
     if(!randomRecipe || !categoryList){
         return <Loading/>
     }
 
+    if(isError){
+        return <Error/>
+    }
 
     return (
         <Wrapper>
-        <Header/>
-        <Container>
-        <FirstIntro/>
-        <SecondIntro/>
-        <PopularDrink/>
-        <RandomRecommendation randomRecipe={randomRecipe}/>
-        <CommunityIntro/>
-        </Container>
-        <Footer/>
+            <Header/>
+            <Container>
+                <FirstIntro/>
+                <SecondIntro/>
+                <PopularDrink/>
+                <RandomRecommendation randomRecipe={randomRecipe}/>
+                <CommunityIntro/>
+            </Container>
+            <Footer/>
         </Wrapper>
     )
 }

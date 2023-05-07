@@ -2,32 +2,43 @@ import { useEffect ,  useState } from "react";
 import styled from "styled-components";
 import {NavigationArrow} from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
+import Error from "../error/Error";
 
 const CommunityIntro = () =>{
-    const [postUser,setPostUser] = useState(null)
+    //to store the random user who posted in the community
+    const [postUser,setPostUser] = useState(null);
+    //to set the error when catch one
+    const [isError,setIsError] = useState(false)
+
+    //to get 3 random users who posted in the community
     useEffect(()=>{
         fetch("/api/randomUsers/")
         .then(res=>res.json())
         .then(resData=>setPostUser(resData.data))
+        .catch(err=>setIsError(true))
     },[])
+
+    if(isError){
+        return<Error/>
+    }
 
     return(
         <Wrapper>
-        <IntroPicture src="https://cdn.discordapp.com/attachments/688213778206294154/1102722955668115506/Aegyoking_drinks_cheering_hand_in_the_style_of_expressive_manga_b07f7c70-5a98-4006-b871-6bf3a8babb93.png"/>
-        <TextArea>
-            <Title>Join the Community!! </Title>
-            <Content>"Wanna see something rare?
-            <br/>
-            They are sharing their own recipes here too."</Content>
-            <UserSection>
-                <PictureSection>
-            {postUser && postUser.map((userPicture)=>{
-                return <User src={userPicture["_id"]}/>
-            })}
-            </PictureSection>
-            </UserSection>
-            <Explore to={`/community`}>Join Now<NavigationArrow size={30} weight="bold"/></Explore>
-        </TextArea>
+            <IntroPicture src="https://cdn.discordapp.com/attachments/688213778206294154/1102722955668115506/Aegyoking_drinks_cheering_hand_in_the_style_of_expressive_manga_b07f7c70-5a98-4006-b871-6bf3a8babb93.png"/>
+            <TextArea>
+                <Title>Join the Community!! </Title>
+                <Content>"Wanna see something rare?
+                <br/>
+                They are sharing their own recipes here too."</Content>
+                <UserSection>
+                    <PictureSection>
+                        {postUser && postUser.map((userPicture,index)=>{
+                            return <User src={userPicture["_id"]} key={index}/>
+                        })}
+                    </PictureSection>
+                </UserSection>
+                <Explore to={`/community`}>Join Now<NavigationArrow size={30} weight="bold"/></Explore>
+            </TextArea>
         </Wrapper>
     )
 }
