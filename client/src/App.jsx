@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import GlobalStyle from "./components/GlobalStyle";
 import Home from "./components/Home/Home";
 import RecipesDetail from"./components/RecipesDetail/RecipesDetail";
-import { useEffect , useContext } from "react";
+import { useEffect , useContext , useState } from "react";
 import CategoryResult from "./components/Category/CategoryResult";
 import { RecipesContext } from "./components/Context/RecipesContext";
 import Profile from "./components/Profile/Profile";
@@ -11,31 +11,44 @@ import Community from "./components/Community/Community";
 import PostDetail from "./components/Community/PostDetail/PostDetail";
 import ContactUs from "./components/Footer/ContactUs";
 import Policy from "./components/Footer/Policy";
+import Error from "./components/error/Error";
 
 
 const App = () => {
   const {setCategoryList,setRecipesList,actions:{userLogIn}} = useContext(RecipesContext);
   const { user } = useAuth0();
+  const [isError, setIsError] = useState(false);
   
+  //store all the recipes data
     useEffect(()=>{
       fetch("/api/recipes")
       .then(res=>res.json())
       .then(resData=>setRecipesList(resData.data))
+      .catch(error=>setIsError(true))
     },[])
-
+    
+    //get the category list
     useEffect(()=>{
         fetch("/api/categories")
         .then(res=>res.json())
         .then(resData=>setCategoryList(resData.data))
+        .catch(error=>setIsError(true))
     },[])
 
+    //store the user info ans change the status
     useEffect(()=>{
       if(user){
         fetch(`/api/users/${user.sub}`)
         .then(res=>res.json())
         .then(resData=>userLogIn(resData.data))
+        .catch(error=>setIsError(true))
       }
     },[user])
+
+    //when there is error show error page
+    if(isError){
+      return <Error/>
+    }
 
   return (
     <>

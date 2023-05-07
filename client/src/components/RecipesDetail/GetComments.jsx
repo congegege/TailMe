@@ -14,56 +14,67 @@ const GetComments = ({id,isPosted,averageRate,setIsPosted}) =>{
     const [isClick,setIsClick] = useState(false);
     //to limit the access if user is not login
     const {isAuthenticated} = useAuth0();
+    //see whether there is any error
+    const [isError , setIsError] = useState(false)
 
     //to get all the comments when user post a new one it will fetch too
     useEffect(()=>{
         fetch(`/api/comments/${id}`)
         .then(res=>res.json())
         .then(resData=>setCommentList(resData.data))
+        .catch(error =>setIsError(true))
     },[isPosted])
 
-    console.log(isClick)
+
+    if(isError){
+        return<Error/>
+    }
 
 return (
     <Wrapper>
-    <Title>Reviews <Count>({commentList ? commentList.length : 0})</Count> </Title>
-    {isAuthenticated &&<Button onClick={()=>{setIsClick(true)}}>Write a review</Button>}
-    <Container>
-        {averageRate > 0 &&
-        <RateSection>
-            
-            <SecondTitle>Glodbal Rating</SecondTitle>
-            <RateIcon><RateIconHandler averageRate={averageRate}/></RateIcon>
-            <RateStringHandler averageRate={averageRate} />
-        </RateSection>
-        }
+        {/* when there is no comment display 0 next to the reviews */}
+        <Title>Reviews 
+            <Count>({commentList ? commentList.length : 0})</Count> 
+        </Title>
+        {/* when user is not login the review button will not be displayed */}
+        {isAuthenticated &&<Button onClick={()=>{setIsClick(true)}}>Write a review</Button>}
+
+        <Container>
+            {/* when there is average rate it will displayed next to the comment sections with the icon and matched sentence */}
+            {averageRate > 0 &&
+                <RateSection>
+                    <SecondTitle>Glodbal Rating</SecondTitle>
+                    <RateIcon><RateIconHandler averageRate={averageRate}/></RateIcon>
+                    <RateStringHandler averageRate={averageRate} />
+                </RateSection>
+            }
         
-        <ReviewContainer>
-            {isClick &&<PostReview>
-                <PostComment id={id} setIsPosted={setIsPosted} setIsClick={setIsClick}/>
-            </PostReview>}
-            {commentList ?
-            <ReviewList>
-        {commentList.map((comment ,  index)=>{
-            const{content,name,picture,date} = comment;
-            return (
-                <ReviewSection key={index}>
-                    <BasicInfo>
-                        <ProfilePicture src={picture}/>
-                        <Name>{name}</Name>  
-                    </BasicInfo>
-                    <Comment>{content}</Comment>
-                    <Date>{date}</Date>
-                </ReviewSection>
-                )
+            <ReviewContainer>
+                {isClick &&<PostReview>
+                    <PostComment id={id} setIsPosted={setIsPosted} setIsClick={setIsClick}/>
+                </PostReview>}
+                {commentList ?
+                    <ReviewList>
+                    {commentList.map((comment ,  index)=>{
+                        const{content,name,picture,date} = comment;
+                        return (
+                            <ReviewSection key={index}>
+                                    <BasicInfo>
+                                        <ProfilePicture src={picture}/>
+                                        <Name>{name}</Name>  
+                                    </BasicInfo>
+                                    <Comment>{content}</Comment>
+                                    <Date>{date}</Date>
+                            </ReviewSection>
+                            )
         
-        })}
-        </ReviewList>
-        :
-        <NoReviews>No reviews yet</NoReviews>}
-        </ReviewContainer>
+                    })}
+                </ReviewList>
+                :
+                <NoReviews>No reviews yet</NoReviews>}
+            </ReviewContainer>
         
-    </Container>
+        </Container>
     </Wrapper>
 )
 }
