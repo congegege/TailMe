@@ -9,33 +9,34 @@ import { useRef } from "react";
 
 
 const CommunityHeader = () =>{
+    //judge whether user login
     const { isAuthenticated } = useAuth0();
+    //judge whether user hover on the category
     const [isCategoryHover , setIsCategoryHover] = useState(false);
+    //judge user is scrolling up or down
     const [scrolledDirection , setScrolledDirection] = useState(null);
-
-
+    // store the pre postion
     let lastPosition = useRef(0);
 
+    //when user scroll down header will disappear when user scroll up header will appear
     useEffect(()=>{
         lastPosition.current = window.pageYOffset;
 
-    const scrollDirectionHandler = () => {
-        const scrollY = window.pageYOffset;
+        const scrollDirectionHandler = () => {
+            const scrollY = window.pageYOffset;
 
-        if(scrollY == 0){
-            setScrolledDirection(null)
-        }
-        else if (Math.abs(scrollY - lastPosition.current) > 0) {
+            //when user at the beginning set the header appear
+            if(scrollY == 0){
+                setScrolledDirection(null)
+            }
+            else if (Math.abs(scrollY - lastPosition.current) > 0) {
             
-            const newScrollDirection =
-                scrollY > lastPosition.current ? 'down' : 'up';
+            const newScrollDirection = scrollY > lastPosition.current ? 'down' : 'up';
                 
-                setScrolledDirection(newScrollDirection);
-        lastPosition.current = scrollY > 0 ? scrollY : 0;
-        }
-        else if(Math.abs(scrollY - lastPosition.current) === 0){
-            setScrolledDirection(null)
-        }
+            setScrolledDirection(newScrollDirection);
+            lastPosition.current = scrollY > 0 ? scrollY : 0;
+            }
+            
     };
 
     window.addEventListener('scroll', scrollDirectionHandler);
@@ -57,23 +58,23 @@ const CommunityHeader = () =>{
                     <LogoutButton/> : <LoginButton/>}
                 </UserSection>
             </Container>
-        {isCategoryHover && 
-        <CategorySection onMouseLeave={()=>{setIsCategoryHover(false)}}>
-            <TextSection>
-                <CategoryList/>
-            </TextSection>
-            <PictureSection>
-                <PictureContainer to={`/categories`}>
-                    <Picture src="https://media.discordapp.net/attachments/688213778206294154/1102096537720471582/grid_0.png?width=903&height=903"/>
-                    <Text>All recipes</Text>
-                </PictureContainer>
-                <PictureContainer to={`/categories/?strAlcoholic=Non+alcoholic`}>
-                    <Picture src="https://cdn.discordapp.com/attachments/688213778206294154/1102096211420401714/Aegyoking_a_magical_cocktail_shaker_17bd6212-f58b-4fab-99c0-703ba75619f8.png"/>
-                    <Text>Non Alcoholic</Text>
-                </PictureContainer>
+            {isCategoryHover && 
+                <CategorySection onMouseLeave={()=>{setIsCategoryHover(false)}}>
+                    <TextSection>
+                        <CategoryList/>
+                    </TextSection>
+                    <PictureSection>
+                        <PictureContainer to={`/categories`}>
+                            <Picture src="https://media.discordapp.net/attachments/688213778206294154/1102096537720471582/grid_0.png?width=903&height=903"/>
+                            <Text>All recipes</Text>
+                        </PictureContainer>
+                        <PictureContainer to={`/categories/?strAlcoholic=Non+alcoholic`}>
+                            <Picture src="https://cdn.discordapp.com/attachments/688213778206294154/1102096211420401714/Aegyoking_a_magical_cocktail_shaker_17bd6212-f58b-4fab-99c0-703ba75619f8.png"/>
+                            <Text>Non Alcoholic</Text>
+                        </PictureContainer>
                 
-            </PictureSection>
-        </CategorySection>}
+                    </PictureSection>
+                </CategorySection>}
         </Wrapper>}
         </>
     )
