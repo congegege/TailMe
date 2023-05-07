@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import { RecipesContext } from "../Context/RecipesContext";
+import Error from "../error/Error";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import CategoryLoading from "../Loading/CategoryLoading";
@@ -20,8 +21,10 @@ const CategoryResult = () => {
     const queryList = Array.from(searchParams.values());
     //judge whether the user click on the button filter when click the sidebar will be displayed
     const {setIsClicked, isClicked} = useContext(RecipesContext);
-
+    // set the loading state when new query is added
     const [isLoading, setIsLoading] = useState(false);
+    // set the state when it got the error
+    const [isError ,  setIsError] = useState(false)
     
     //fetch the related recipes by query
     useEffect(()=>{
@@ -33,15 +36,22 @@ const CategoryResult = () => {
             setIsLoading(false);
             setCategoryRecipes(resData.data)
         })
+        .catch(err=>{
+            setIsError(true)
+            setIsLoading(false)
+        })
     },[query])
 
     if(!categoryRecipes || isLoading){
         return <CategoryLoading/>
     }
 
+    if(isError){
+        return <Error/>
+    }
+
     return (
         <>
-        
         <Container>
             <SideBar />
             <TitleSection>
@@ -49,10 +59,10 @@ const CategoryResult = () => {
                 <QueryTitle>
                     {/* when no query is selected show "all" */}
                     {queryList.length == 0 ? 
-                    <span>All</span> : 
-                    queryList.map((query)=>{
-                        return <span key={query}> {query}</span>
-                    })}
+                        <span>All</span> : 
+                        queryList.map((query)=>{
+                            return <span key={query}> {query}</span>
+                        })}
                 </QueryTitle>
                 <FilterButton onClick={()=>setIsClicked(true)} >Filters</FilterButton>
             </TitleSection>
@@ -71,8 +81,8 @@ const CategoryResult = () => {
             </Wrapper>}
             {categoryRecipes && categoryRecipes.length == 0 &&
             <NoResultContainer>
-            <NoResult>No Result<Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/> </NoResult>
-            <Message to={"/community"}>Explore our <Part>community</Part> to discover more</Message>
+                <NoResult>No Result<Face src="https://res.cloudinary.com/dgy6nwt6m/image/upload/v1682666408/sad_tp3cwj.png"/> </NoResult>
+                <Message to={"/community"}>Explore our <Part>community</Part> to discover more</Message>
             </NoResultContainer>}
             <Footer/>
         </Container>

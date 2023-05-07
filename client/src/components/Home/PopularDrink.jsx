@@ -1,44 +1,54 @@
 import { useEffect , useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
+import Error from "../error/Error";
+import DetailLoadingButton from "../Loading/DetailLoadingButton";
 
 const PopularDrink = () =>{
+    //to store the popular drink Info
     const [popularDrinkList , setpopularDrinkList] = useState(null);
-    const [hoverDrink ,  setHoverDrink] = useState(null)
+    //judge whether user hover on the drink name
+    const [hoverDrink ,  setHoverDrink] = useState(null);
+    //catch the error if there is one
+    const [isError , setIsError] = useState(false);
+
     useEffect(()=>{
         fetch("/api/popularDrink")
         .then(res=>res.json())
         .then(resData=>{
             setpopularDrinkList(resData.data);
         })
+        .catch(err=>{setIsError(true)})
     },[])
-    console.log(popularDrinkList)
+    
 
     if(!popularDrinkList){
-        return <>Loading</>
+        return <DetailLoadingButton/>
+    }
+
+    if(isError){
+        return <Error/>
     }
     
     return (
         <Wrapper>
-        
-        <PopularDrinkContainer>
+            <PopularDrinkContainer>
+                <Frame src={"https://cdn.discordapp.com/attachments/688213778206294154/1102263559041327195/realistic-burned-paper-texture_52683-73921-removebg-preview.png"} />
             
-            <Frame src={"https://cdn.discordapp.com/attachments/688213778206294154/1102263559041327195/realistic-burned-paper-texture_52683-73921-removebg-preview.png"} />
+                <NameContainer>
+                    <Title>Trending Drink</Title>
+                    {popularDrinkList.map((popularDrink)=>{
+                        const {idDrink,strDrink,strDrinkThumb} = popularDrink
+                        return (
+                                    <DrinkName key={idDrink} to={`/recipes/${idDrink}`} ishover={strDrinkThumb == hoverDrink ? true : false}>
+                                        <div onMouseEnter={()=>{setHoverDrink(strDrinkThumb)}}>{strDrink}</div>
+                                    </DrinkName>
+                                )
+                    })}
+                </NameContainer>
             
-            <NameContainer>
-                <Title>Trending Drink</Title>
-        {popularDrinkList.map((popularDrink)=>{
-            const {idDrink,strDrink,strDrinkThumb} = popularDrink
-            return (
-                <DrinkName to={`/recipes/${idDrink}`} ishover={strDrinkThumb == hoverDrink ? true : false}>
-                <div onMouseEnter={()=>{setHoverDrink(strDrinkThumb)}}>{strDrink}</div>
-                </DrinkName>
-            )
-        })}
-        </NameContainer>
-            
-        </PopularDrinkContainer>
-        <DrinkPicture src={hoverDrink ? hoverDrink : popularDrinkList[0]["strDrinkThumb"]}/>
+            </PopularDrinkContainer>
+            <DrinkPicture src={hoverDrink ? hoverDrink : popularDrinkList[0]["strDrinkThumb"]}/>
         </Wrapper>
     )
 }

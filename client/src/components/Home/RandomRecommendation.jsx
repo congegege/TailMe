@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link  } from "react-router-dom";
 import styled from "styled-components";
 import {ArrowRight} from "@phosphor-icons/react";
-import Loading from "../Loading/Loading";
 
 const RandomRecommendation = ({randomRecipe}) =>{
      //maximum 15 ingredients created the array from 1 to 15 so that we can map through the list
     const ingredientsNumList = Array.from({length: 15}, (value, i) => i + 1)
+    // to judge whether user hover on the card
     const [isHover ,  setIsHover] = useState(false);
 
+    //filter the ingresients that really contian in the list and change the key name to match the database 
     let ingredients = ingredientsNumList.filter((num)=>{
         if(randomRecipe){
             let ingredientKey = "strIngredient" + num ;
@@ -22,30 +23,30 @@ const RandomRecommendation = ({randomRecipe}) =>{
         {randomRecipe &&
             <Wrapper onMouseLeave={()=>setIsHover(false)}>
                     <DrinkPicture src={randomRecipe.strDrinkThumb} onMouseEnter={()=>setIsHover(false)}/>
-                    
+    
                     <TextSection ishover={isHover} >
                         
                         <CheckSection to={`/recipes/${randomRecipe.idDrink}`}>More Detail</CheckSection>
                         <InfoSection onMouseEnter={()=>{setIsHover(true)}} >
-                        <DrinkName ><Title>" Tail me, </Title>{randomRecipe.strDrink}"
-                        </DrinkName>
-                        <IngredientSection >
-                        {ingredients.map((ingredient,index)=>{
-                            let ingredientKey = "strIngredient" + ingredient ;
-                            let measureKey = "strMeasure" + ingredient ;
-                            if(index <= 5){
-                                return (
-                                    <SingleIngredient key={ingredientKey}>
-                                    <div >{randomRecipe[ingredientKey]} :</div>
-                                    {randomRecipe[measureKey] && <Measurement>{randomRecipe[measureKey]}</Measurement>}
-                                    </SingleIngredient>
-                                )
-                            }
-                            
-                        
-                        })}
-                        </IngredientSection>
-                        {ingredients.length > 6 && <Message><ArrowRight size={30}/>More Ingredients</Message>}
+                            <DrinkName >
+                                <Title>" Tail me, </Title>{randomRecipe.strDrink}"
+                            </DrinkName>
+                            <IngredientSection >
+                                {ingredients.map((ingredient,index)=>{
+                                    let ingredientKey = "strIngredient" + ingredient ;
+                                    let measureKey = "strMeasure" + ingredient ;
+                                    if(index <= 5){
+                                        return (
+                                        <SingleIngredient key={ingredientKey}>
+                                        <div >{randomRecipe[ingredientKey]} :</div>
+                                        {randomRecipe[measureKey] && <Measurement>{randomRecipe[measureKey]}</Measurement>}
+                                        </SingleIngredient>
+                                        )
+                                    }
+                                })}
+                            </IngredientSection>
+                            {/* when there re more than 6 ingresients display 6 maximum then show the text to check more ingresients */}
+                            {ingredients.length > 6 && <Message><ArrowRight size={30}/>More Ingredients</Message>}
                         </InfoSection>
                         
                     </TextSection>

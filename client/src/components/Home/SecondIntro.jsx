@@ -5,11 +5,13 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const SecondIntro = () =>{
+    //to judge whether the animation should be played
     const [isTypeWritterPlayed , setIsTypeWritterPlayed] = useState(false);
+    //to store the postion where user Scrolled to will run the animation
     const intro = useRef(null);
 
+// to observer whether user scroll to the certain position
 useEffect(()=>{
-
     const animationHandler = (entry) =>{
         setIsTypeWritterPlayed(entry[0].isIntersecting)
     }
