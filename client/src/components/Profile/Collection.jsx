@@ -73,7 +73,7 @@ const Collection = ({sub}) =>{
     })
     
     const userCommentResultList = userCommentsList.filter((commentDrink,index)=>{
-        if(userCommentsList.length > 3){
+        if(userCommentsList.length > 1){
             
             if(!isCommentExpanded){
                 
@@ -89,7 +89,7 @@ const Collection = ({sub}) =>{
             return commentDrink
         }
     })
-    console.log(userCommentResultList)
+    console.log(userCommentsList)
     const handleCollectionDelete = (id) =>{
         setIsLoading(true);
         setClickedRecipe(id);

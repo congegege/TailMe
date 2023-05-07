@@ -23,12 +23,12 @@ const PostForm = () =>{
         <PictureUpload/>,
     ];
 
-    
+    console.log({"sub":state.user.sub},formData)
     const handleSubmit = (event) =>{
         event.preventDefault();
         submitPost()
 
-        console.log({"sub":state.sub})
+        
         fetch("/api/community",{
             method:"POST",
             headers:{

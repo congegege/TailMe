@@ -1,4 +1,4 @@
-import styled ,{keyframes} from "styled-components";
+import styled ,{css, keyframes} from "styled-components";
 import {Plus ,NavigationArrow} from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import { useEffect } from "react";
@@ -27,7 +27,7 @@ useEffect(()=>{
 
     return (
         <Wrapper >
-                <Picture  src="https://media.discordapp.net/attachments/688213778206294154/1102122858664169562/corgidreams_dramatic_dynamic_photograph_of_a_magical_sparkling__e55256fe-b85d-49dd-8dfa-13ec09f82c62.png?width=397&height=597"/>
+                <Picture isPlayed={isTypeWritterPlayed}  src="https://media.discordapp.net/attachments/688213778206294154/1102122858664169562/corgidreams_dramatic_dynamic_photograph_of_a_magical_sparkling__e55256fe-b85d-49dd-8dfa-13ec09f82c62.png?width=397&height=597"/>
                 <TitleContainer ref={intro}>
                     {isTypeWritterPlayed && <Title>TAIL ME A DRINK</Title>}
                     <SecondTitle><Num>400<Plus weight="bold" stroke="#08361b" strokeWidth="10px"/></Num>Recipes</SecondTitle>
@@ -37,7 +37,7 @@ useEffect(()=>{
                     <Content>It's shake time!</Content>
                     <Explore to={`/categories`}>Explore Now<NavigationArrow size={30} weight="bold"/></Explore>
                 </TitleContainer>
-                <PictureTwo src="https://media.discordapp.net/attachments/688213778206294154/1102134774103015444/Aegyoking_None_dd219057-7393-4857-a538-76c914758a90.png?width=597&height=597"/>
+                <PictureTwo isPlayed={isTypeWritterPlayed} src="https://media.discordapp.net/attachments/688213778206294154/1102134774103015444/Aegyoking_None_dd219057-7393-4857-a538-76c914758a90.png?width=597&height=597"/>
         </Wrapper>
     )
 }
@@ -81,7 +81,7 @@ const Title = styled.div`
     top: -25%;
     padding-left: 1%;
     overflow: hidden;
-    animation: ${typing} 2s steps(30) ,${blinkingCursor} 0.5s step-end infinite;
+    animation: ${typing} 2s steps(30) ,${blinkingCursor} 0.8s step-end infinite;
 `
 
 const SecondTitle = styled.div`
@@ -128,6 +128,18 @@ const Num = styled.span`
 	-webkit-text-stroke-width: 3px;
 `
 
+const sideUp = keyframes`
+    from {
+        opacity: 0.3;
+        transform: translateY(20%);
+    }
+
+    to {
+        opacity: 1;
+    transform: translate(0);
+    }
+`
+
 const PictureTwo = styled.img`
     position: absolute;
     width: 20%;
@@ -139,6 +151,7 @@ const PictureTwo = styled.img`
     border-left: 1px solid green ;
     border-bottom: 1px solid green ;
     z-index:1;
+    animation: ${props=>props.isPlayed && css`${sideUp} 0.8s ease-in 1 forwards`};
 `
 
 
@@ -151,6 +164,17 @@ const Wrapper = styled.div`
     margin-top: 18%;
 `
 
+const sideIn = keyframes`
+    from {
+        opacity: 0.3;
+        transform: translateY(-20%);
+    }
+
+    to {
+        opacity: 1;
+    transform: translate(0);
+    }
+`
 
 const Picture = styled.img`
     width: 20%;
@@ -164,6 +188,7 @@ const Picture = styled.img`
     border-right: 1px solid green ;
     border-bottom: 1px solid green ;
     z-index:1;
+    animation: ${props=>props.isPlayed && css`${sideIn} 0.5s ease-in 1 forwards`};
 `
 
 export default SecondIntro;

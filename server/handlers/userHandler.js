@@ -34,14 +34,14 @@ const getUsers = async (req , res) =>{
     }
     }
 
-    //get random 5 users who post in community
+    //get random 3 users who post in community
     const getRandomUsers =async(req,res) =>{
     const client = new MongoClient(MONGO_URI,options);
     try{
         await client.connect();
         const db = client.db("cocktails");
 
-        const result = await db.collection("community").aggregate([{$group:{ _id: "$userPicture"}}, {$limit:5}]).toArray()
+        const result = await db.collection("community").aggregate([{$group:{ _id: "$userPicture"}}, {$limit:3}]).toArray()
 
         await client.close();
 
