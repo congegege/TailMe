@@ -13,6 +13,7 @@ import DetailHeader from "../Header/DetailHeader";
 import Loading from "../Loading/Loading";
 import Footer from "../Footer/Footer";
 import {ArrowLeft} from "@phosphor-icons/react"
+import Error from "../error/Error";
 
 
 const RecipesDetail = () =>{
@@ -34,10 +35,12 @@ const RecipesDetail = () =>{
     const [averageRate ,  setAverageRate] = useState(null);
     //limit the access if use is not login
     const {isAuthenticated} = useAuth0();
-
+    //set up navigate
     const navigate = useNavigate();
+    //judge whether there is error
+    const [isError, setIsError] = useState(false)
 
-
+    //return the array that really contains the ingredients and set the key to match the database
     let ingredients = ingredientsNumList.filter((num)=>{
         if(recipeInfo){
             let ingredientKey = "strIngredient" + num ;
@@ -46,30 +49,38 @@ const RecipesDetail = () =>{
         
     })
 
-    //fetch the data bt id
+    //fetch the data by id
     useEffect(()=>{
         fetch(`/api/cocktails/${id}`)
         .then(res=>res.json())
         .then(resData=>setRecipeInfo(resData.data))
+        .catch(error=>setIsError(true))
     },[])
     
 
-    //will replace with loading componet , put it there first to avoid the error
+    // when user is login , need the user Info and recipe Info to load the page
     if(isAuthenticated){
         if(!recipeInfo || !state.user){
             return <Loading/>
         }
     }
+    //if user is not login in still show the detail so load the page for user when the info is available
     else{
         if(!recipeInfo){
             return <Loading/>
         }
+    }
+
+    //throw the Error page when there is any error
+    if(isError){
+        return<Error/>
     }
     
     return (
         <>
         <DetailHeader/>
         <Wrapper>
+            {/* go back to the last page */}
             <GoBackButton onClick={()=>navigate(-1)}><ArrowLeft size={40} /></GoBackButton>
             <RecipeContainer>
                 <BasicInfoSection>
@@ -88,52 +99,51 @@ const RecipesDetail = () =>{
                             <CategoryName>{recipeInfo.strCategory}</CategoryName>
                             <CategoryPictureHandler category={recipeInfo.strCategory}/>
                         </Category>
-                                
                     </CategorySection>
                             
-                            
-                            <Instrution>{recipeInfo.strInstructions.slice(0,1).toUpperCase()}{recipeInfo.strInstructions.slice(1)}</Instrution>
-                            <CollectButton id={id} recipeInfo={recipeInfo}/>
-                        </BasicInfoSection>
+                    <Instrution>{recipeInfo.strInstructions.slice(0,1).toUpperCase()}{recipeInfo.strInstructions.slice(1)}</Instrution>
 
-                        <PictureSection>
-                            <PictureContainer>
-                                <RecipePicture src={!isHover ? recipeInfo.strDrinkThumb : `https://www.thecocktaildb.com/images/ingredients/${hoverIngredient}.png`} />
-                            </PictureContainer>
-                            {isAuthenticated && <StarRating id={id}/>}
-                        </PictureSection>
+                    <CollectButton id={id} recipeInfo={recipeInfo}/>
+                </BasicInfoSection>
+
+                <PictureSection>
+                    <PictureContainer>
+                    {/* when the user hover on the ingresient name the picture section will show ingresient pic instead */}
+                        <RecipePicture src={!isHover ? recipeInfo.strDrinkThumb : `https://www.thecocktaildb.com/images/ingredients/${hoverIngredient}.png`} />
+                    </PictureContainer>
+
+                    {isAuthenticated && <StarRating id={id}/>}
+                </PictureSection>
 
                         
-                        
-
-                        <IngredientSection>
-                        {ingredients.map((ingredient)=>{
-                            let ingredientKey = "strIngredient" + ingredient ;
-                            let measureKey = "strMeasure" + ingredient ;
-                            
-                                return (
-                                    <SingleIngredient key={ingredientKey} onMouseEnter={()=>{setIsHover(true) ;setHoverIngredient(recipeInfo[ingredientKey])}} onMouseLeave={()=>{setIsHover(false);setHoverIngredient(null)}}>
+                <IngredientSection>
+                    {ingredients.map((ingredient)=>{
+                        let ingredientKey = "strIngredient" + ingredient ;
+                        let measureKey = "strMeasure" + ingredient ;
+                            return (
+                                // set the state when user hover on the ingredient name
+                                <SingleIngredient key={ingredientKey} 
+                                onMouseEnter={()=>{setIsHover(true) ;setHoverIngredient(recipeInfo[ingredientKey])}}
+                                onMouseLeave={()=>{setIsHover(false);setHoverIngredient(null)}}>
                                     <div >{recipeInfo[ingredientKey]} :</div>
                                     {recipeInfo[measureKey] && <Measurement>{recipeInfo[measureKey]}</Measurement>}
-                                    </SingleIngredient>
-                                )
+                                </SingleIngredient>
+                            )
                         
                         })}
-                        </IngredientSection>
+                </IngredientSection>
                         
-        </RecipeContainer>
+            </RecipeContainer>
 
-        <ReviewSection>
-            <CommentsContainer>
-            
-                <GetComments id={id} isPosted={isPosted} setIsPosted={setIsPosted} averageRate={averageRate}/>
-            
-            </CommentsContainer>
-        </ReviewSection>
+            <ReviewSection>
+                <CommentsContainer>
+                    <GetComments id={id} isPosted={isPosted} setIsPosted={setIsPosted} averageRate={averageRate}/>
+                </CommentsContainer>
+            </ReviewSection>
 
         </Wrapper>
         <Footer/>
-        </>
+    </>
     )
 }
 
