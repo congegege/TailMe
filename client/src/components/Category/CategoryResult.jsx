@@ -43,9 +43,9 @@ const CategoryResult = () => {
         <>
         
         <Container>
-        {!isClicked && <Header/>}
             <SideBar />
             <TitleSection>
+            <Header/>
                 <QueryTitle>
                     {/* when no query is selected show "all" */}
                     {queryList.length == 0 ? 

@@ -14,7 +14,8 @@ const {postCollection, getCollections , getUserCollectedCollection,deleteCollect
 const {createPost, getPosts, getSinglePost} =  require("./handlers/communityHandler");
 const {getRatedDrink, getUserComments,getUserPosts} = require("./handlers/profileHandler");
 const {getAllPopularDrink} = require("./handlers/popularDrinkHandler");
-const {postContactForm} = require("./handlers/contactFormHandler")
+const {postContactForm} = require("./handlers/contactFormHandler");
+const {postCalendarDays,getselectedDays} = require ("./handlers/calendarHandler");
 
 app.use(morgan("tiny"));
 app.use(express.json({limit: '50mb'}));
@@ -96,6 +97,11 @@ app.get("/api/ratedDrink/:sub", getRatedDrink);
 app.get("/api/userComments/:sub", getUserComments);
 // to get all the posts that user posted in the community
 app.get("/api/community/userPosts/:sub", getUserPosts);
+
+//for Calendar 
+app.post("/api/calendar",postCalendarDays)
+//to get users picked date
+app.get("/api/calendar/selectedDays/:sub",getselectedDays)
 
 //for popular Drink
 // to get all the popular Drink

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useContext , useState } from 'react';
 import { CommunityContext } from '../Context/CommunityContext';
-import styled from 'styled-components';
+import styled  from 'styled-components';
 import { RecipesContext } from '../Context/RecipesContext';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import { keyframes } from 'styled-components';
 
 
 const UserSideBar = () =>{
@@ -50,6 +51,16 @@ const UserSideBar = () =>{
     
 }
 
+const sideIn = keyframes`
+    from {
+        transform: translate(20%);
+    }
+
+    to {
+    transform: translate(0);
+    }
+`
+
 const Wrapper = styled.div`
     display: flex;
     left: 0px;
@@ -82,11 +93,13 @@ const Info = styled.div`
 const Name = styled.div`
     font-size: 25px;
     color: #6c584c;
+    animation:${sideIn} 0.2s ease-in 1 forwards;
 `
 
 const Email = styled.div`
     font-size: 13px;
     color: #746452;
+    animation:${sideIn} 0.2s ease-in 1 forwards;
 `
 
 const ProfilePicture = styled.img`
@@ -119,6 +132,7 @@ const Icon = styled.img`
 const IconName = styled.div`
     font-size: 20px;
     color: #6c584c;
+    animation:${sideIn} 0.2s ease-in 1 forwards;
 `
 
 

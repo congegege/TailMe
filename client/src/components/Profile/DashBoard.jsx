@@ -1,12 +1,11 @@
-import Calendar from "react-calendar";
 import { useContext , useState, useEffect } from "react";
 import { RecipesContext } from "../Context/RecipesContext";
 import styled from "styled-components";
 import { useParams ,Link } from "react-router-dom";
 import { ArrowRight } from "@phosphor-icons/react";
 import { CommunityContext } from "../Context/CommunityContext";
-
 import CategoryLoading from "../Loading/CategoryLoading";
+import DateSelector from "./DatePicker";
 
 const DashBoard = () =>{
     const {id} = useParams()
@@ -14,7 +13,7 @@ const DashBoard = () =>{
     const[collectionList,setCollectionList] = useState(null);
     const[ratedList , setRatedList] = useState(null);
     const[userCommentsList, setUserCommentsList] = useState(null);
-    const {clickedSection,setClickedSection} = useContext(CommunityContext)
+    const {clickedSection,setClickedSection} = useContext(CommunityContext);
 
 
     
@@ -46,6 +45,7 @@ const DashBoard = () =>{
         const today = new Date().getTime();
         const joinDate = new Date(updated_at).getTime();
         const joinDays = Math.floor((today-joinDate)/(1000*60*60*24));
+        
         
         return (
             <>
@@ -103,7 +103,7 @@ const DashBoard = () =>{
                     : <CheckMoreButton onClick={()=>setClickedSection("Collection")}>To check more<ArrowRight size={28}/></CheckMoreButton>}
             </CollectionSection>
             </Content>
-            <CalendarSection><Calendar/></CalendarSection>
+             <CalendarSection><DateSelector /></CalendarSection> 
             </DashBoardContainer>
             </>
         )

@@ -96,6 +96,7 @@ const GrayOut = styled.div`
     position: fixed;
     opacity: 0.9;
     transition: background-color 200ms ease-in 1;
+    z-index: 10;
 
 `
 const Rotate = keyframes`
