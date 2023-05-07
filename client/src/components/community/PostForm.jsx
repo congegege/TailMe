@@ -23,7 +23,7 @@ const PostForm = () =>{
         <PictureUpload/>,
     ];
 
-    console.log({"sub":state.user.sub},formData)
+    
     const handleSubmit = (event) =>{
         event.preventDefault();
         submitPost()

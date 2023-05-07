@@ -9,17 +9,17 @@ const SearchBar = () =>{
     const {recipesList} = useContext(RecipesContext);
     //to store the user input in the search bar
     const [userQuery , setUserQuery] = useState ("");
-
+    //store the area where user clicked can close the searchBar
     const searchBarRef = useRef();
 
-    //when user start to type
-    
+    //return the result that match what use type
     let filterResult = recipesList.filter((recipe)=>{
         if(userQuery.length >= 1){
                 return recipe.strDrink.toLowerCase().includes(userQuery.toLowerCase())
         }
     })
 
+    //close the searchBar when user click outside
     useEffect(()=>{
         let closeSearchBarBarHandler = (ev) =>{
             if(searchBarRef.current && !searchBarRef.current.contains(ev.target)){
@@ -47,7 +47,7 @@ const SearchBar = () =>{
         <ResultList>{filterResult.slice(0,6).map((recipe)=>{
             //the start point where the input match the drink name
             const matchIndex = recipe.strDrink.toLowerCase().indexOf(userQuery.toLowerCase());
-
+            //seperate into three parts so that can put emphasis on the match part
             const firstPart = recipe.strDrink.slice(0,matchIndex);
             const matchPart = recipe.strDrink.slice(matchIndex,matchIndex+userQuery.length);
             const thirdPart = recipe.strDrink.slice(matchIndex+userQuery.length);

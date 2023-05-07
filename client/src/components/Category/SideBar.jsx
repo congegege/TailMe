@@ -6,20 +6,28 @@ import {CaretDown} from "@phosphor-icons/react";
 import SearchBar from "./SearchBar";
 
 const SideBar = () =>{
-    const {categoryList,isClicked,setIsClicked} = useContext(RecipesContext)
+    const {categoryList,isClicked,setIsClicked} = useContext(RecipesContext);
+    //setup for the params
     const [searchParams,setSearchParams] = useSearchParams(window.location.search);
+    //store the area where user clicked can close the sideBar
     const sideBarRef = useRef();
+    //category that use clicked on to search
     const categoryQuery = searchParams.get("strCategory");
+    //isAlcoholic or not that user clicked on to search
     const alcoholicQuery = searchParams.get("strAlcoholic");
+    //expand button for category whether got clicked on
     const [isCategoryExpand,setIsCategoryExpand] = useState(false);
+    //expand button for Alcoholic whther got clicked on
     const [isAlcoholicExpand,setIsAlcoholicExpand] = useState(false);
     
     const handleFirstFilter = (category) =>{
+        //when user double click on the same category, category delete from the params 
         if(searchParams.get("strCategory") == category){
             searchParams.delete("strCategory")
             setSearchParams(searchParams.toString())
             
         }
+        //when user only click on one time then add it into the param
         else{
             searchParams.set("strCategory",category)
             setSearchParams(searchParams.toString()) 
@@ -27,10 +35,12 @@ const SideBar = () =>{
     }
 
     const handleSecondFilter = (secondFilter) =>{
+        //when user double click on the same isAlcoholic , it will be deleted from the params
         if(searchParams.get("strAlcoholic") == secondFilter){
             searchParams.delete("strAlcoholic")
             setSearchParams(searchParams.toString())
         }
+        //when first click on the isAlcoholic, it will be added to the params
         else{
             searchParams.set("strAlcoholic",secondFilter)
             setSearchParams(searchParams.toString()) 
@@ -38,11 +48,13 @@ const SideBar = () =>{
     }
 
     const handleClearFilter = () =>{
+        //click on the clean button will clean all the query
         searchParams.delete("strAlcoholic");
         searchParams.delete("strCategory");
         setSearchParams(searchParams.toString());
     }
 
+    //when user clicked the outside area it will close the sideBar
     useEffect(()=>{
         let closeSideBarHandler = (ev) =>{
             if(sideBarRef.current && !sideBarRef.current.contains(ev.target)){
