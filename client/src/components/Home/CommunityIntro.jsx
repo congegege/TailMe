@@ -12,7 +12,7 @@ const CommunityIntro = () =>{
 
     //to get 3 random users who posted in the community
     useEffect(()=>{
-        fetch("/api/randomUsers/")
+        fetch("/api/randomUsers")
         .then(res=>res.json())
         .then(resData=>setPostUser(resData.data))
         .catch(err=>setIsError(true))

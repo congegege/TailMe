@@ -61,7 +61,7 @@ app.post("/api/comments", postComment);
 
 //get users info
 app.get("/api/users/:sub",getUsers);
-app.get("/api/randomUsers/",getRandomUsers);
+app.get("/api/randomUsers",getRandomUsers);
 
 //for collection
 //get the collection that user added
