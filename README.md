@@ -3,6 +3,19 @@
 [<img height="30px" align="center" src="https://www.svgrepo.com/show/404660/youtube-video-movie-film-multimedia-social-media.svg"> Demo](https://youtu.be/oJAevW_kKpg) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285449/cocktail.svg"> Quick Start](#quick-start) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/368401/info-bubble.svg"> About](#about) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285406/champagne.svg"> Features](#features) 
 
 ## <img height="30px" align="center" src="https://www.svgrepo.com/show/285449/cocktail.svg">Quick Start
+### Setup
+#### · create .env file underneath the client folder
+```
+VITE_REACT_APP_AUTH0_DOMAIN = [your AUTH0 DOMAIN key]
+VITE_REACT_APP_AUTH0_CLIENT_ID = [your AUTH0 CLIENT ID key]
+```
+#### · create .env file underneath the server folder
+```
+MONGO_URI=[your MONGO_URI]
+CLOUD_NAME = [your CLOUD_NAME]
+CLOUD_KEY = [your CLOUD_KEY]
+CLOUD_KEY_SECRET = [your CLOUD_KEY_SECRET]
+```
 ### Backend
 ```
 cd server
