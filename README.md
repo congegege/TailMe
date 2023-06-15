@@ -1,6 +1,6 @@
 ### <p align="center"><img height="100px" align="center" src="https://media.discordapp.net/attachments/688213778206294154/1102159141159571456/2Emvhr0b_4x.png?width=597&height=597">_Tail Me_</p>
 
-[<img height="30px" align="center" src="https://www.svgrepo.com/show/404660/youtube-video-movie-film-multimedia-social-media.svg"> Demo](https://youtu.be/oJAevW_kKpg) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285449/cocktail.svg"> Quick Start](#quick-start) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/368401/info-bubble.svg"> About](#about) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285406/champagne.svg"> Features](#features) 
+[<img height="30px" align="center" src="https://www.svgrepo.com/show/404660/youtube-video-movie-film-multimedia-social-media.svg"> Demo](https://youtu.be/oJAevW_kKpg) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285449/cocktail.svg"> Quick Start](#quick-start) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/368401/info-bubble.svg"> About](#about) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/285406/champagne.svg"> Features](#features) · [<img height="20px" align="center" src="https://www.svgrepo.com/show/279309/cocktail-coconut.svg"> Technologies](#technologies) 
 
 ## <img height="30px" align="center" src="https://www.svgrepo.com/show/285449/cocktail.svg">Quick Start
 ### Setup
@@ -48,7 +48,16 @@ For the record, I am not an alcoholic☺.TailMe project comes to mind as I hold 
 - Obtained access to user's own profile page to have a comprehensive overview of their activity
 - Obtained insights into the entire collection, reviews and rates (collections can be deleted too)
 - Tracked easily user's drinking history by selecting the desired date on the calendar in the profile page
-
+## <img height="30px" align="center" src="https://www.svgrepo.com/show/279309/cocktail-coconut.svg">Technologies
+### APIS
+Thecocktaildb(cocktail database): https://www.thecocktaildb.com/api.php<br/>
+Auth0(signin feature): https://auth0.com/<br/>
+Cloudinary(upload pictures feature):https://cloudinary.com/<br/>
+### Packages
+Phosphor-react(icon)<br/>
+Quil(text editor)<br/>
+Styled-component(styling)<br/>
+React-multi-date-picker(date picker)<br/>
 
 
 
