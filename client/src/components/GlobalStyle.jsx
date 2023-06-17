@@ -11,7 +11,7 @@ html, body{
     margin: 0;
     padding: 0;
     font-family: "Roboto Mono", sans-serif;
-    
+    color: #000000;
 }
 `;
 export default GlobalStyle;
