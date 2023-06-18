@@ -1,50 +1,8 @@
 import styled ,{css, keyframes} from "styled-components";
-import {Plus ,NavigationArrow} from "@phosphor-icons/react";
-import { useRef, useState } from "react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { device } from "../../DeviceSize/device";
 
-const SecondIntro = () =>{
-    //to judge whether the animation should be played
-    const [isTypeWritterPlayed , setIsTypeWritterPlayed] = useState(false);
-    //to store the postion where user Scrolled to will run the animation
-    const intro = useRef(null);
-
-// to observer whether user scroll to the certain position
-useEffect(()=>{
-    const animationHandler = (entry) =>{
-        setIsTypeWritterPlayed(entry[0].isIntersecting)
-    }
-
-    const observer = new IntersectionObserver(
-        animationHandler,{
-        threshold:1,
-    })
-    observer.observe(intro.current);
-
-    return()=>{
-        observer.disconnect();
-    }
-},[]);
-
-    return (
-        <Wrapper >
-                <Picture isPlayed={isTypeWritterPlayed}  src="https://media.discordapp.net/attachments/688213778206294154/1102122858664169562/corgidreams_dramatic_dynamic_photograph_of_a_magical_sparkling__e55256fe-b85d-49dd-8dfa-13ec09f82c62.png?width=397&height=597"/>
-                <TitleContainer ref={intro}>
-                    {isTypeWritterPlayed && <Title>TAIL ME A DRINK</Title>}
-                    <SecondTitle><Num>400<Plus weight="bold" stroke="#08361b" strokeWidth="10px"/></Num>Recipes</SecondTitle>
-                    <ThirdTitle>450<Plus />Ingredients to explore</ThirdTitle>
-                    <Content>Bring the bar to your home.</Content>
-                    <Content>Detailed recipes are provided for every occasion, go dive in!! perpare your shaker!!</Content>
-                    <Content>It's shake time!</Content>
-                    <Explore to={`/categories`}>Explore Now<NavigationArrow size={30} weight="bold"/></Explore>
-                </TitleContainer>
-                <PictureTwo isPlayed={isTypeWritterPlayed} src="https://media.discordapp.net/attachments/688213778206294154/1102134774103015444/Aegyoking_None_dd219057-7393-4857-a538-76c914758a90.png?width=597&height=597"/>
-        </Wrapper>
-    )
-}
-
-const TitleContainer = styled.div`
+export const TitleContainer = styled.div`
     width: 39%;
     height: 52.6%;
     position: absolute;
@@ -75,38 +33,47 @@ const blinkingCursor = keyframes`
     }
 `
 
-const Title = styled.div`
+export const Title = styled.div`
     border-right: 5px solid #425047;
     white-space: nowrap;
-    font-size: 80px;
+    font-size: 20px;
     position: absolute;
     top: -25%;
     padding-left: 1%;
     overflow: hidden;
     animation: ${typing} 2s steps(30) ,${blinkingCursor} 0.8s step-end infinite;
+    @media ${device.tablet}{
+        font-size: 80px;
+    }
+    @media ${device.laptop}{
+        font-size: 80px;
+    }
+    @media ${device.desktop}{
+        font-size: 80px;
+    }
 `
 
-const SecondTitle = styled.div`
-    font-size: 60px;
+export const SecondTitle = styled.div`
+    font-size: 20px;
     display: flex;
     padding: 3%;
     font-family: "Lexend Deca";
 `
-const ThirdTitle = styled.div`
+export const ThirdTitle = styled.div`
     font-size: 30px;
     display: flex;
     padding: 3%;
     font-family: "Titillium Web";
 `
 
-const Content = styled.div`
+export const Content = styled.div`
     padding: 0 3%;
     line-height: 50px;
     font-family: "Titillium Web";
     font-size: 20px;
 `
 
-const Explore = styled(Link)`
+export const Explore = styled(Link)`
     margin: 3%;
     display: flex;
     height: 30px;
@@ -122,7 +89,7 @@ const Explore = styled(Link)`
     }
 `
 
-const Num = styled.span`
+export const Num = styled.span`
     display: flex;
     align-items: center;
     color: #bfecdf;
@@ -142,7 +109,7 @@ const sideUp = keyframes`
     }
 `
 
-const PictureTwo = styled.img`
+export const PictureTwo = styled.img`
     position: absolute;
     width: 20%;
     height: 70%;
@@ -157,7 +124,7 @@ const PictureTwo = styled.img`
 `
 
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     height: 85vh;
     color: black;
     display: flex;
@@ -178,7 +145,7 @@ const sideIn = keyframes`
     }
 `
 
-const Picture = styled.img`
+export const Picture = styled.img`
     width: 20%;
     height: 70%;
     object-fit: cover;
@@ -192,5 +159,3 @@ const Picture = styled.img`
     z-index:1;
     animation: ${props=>props.isPlayed && css`${sideIn} 0.5s ease-in 1 forwards`};
 `
-
-export default SecondIntro;

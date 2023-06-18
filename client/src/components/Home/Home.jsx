@@ -4,10 +4,10 @@ import styled from "styled-components";
 import Header from "../Header/Header"
 import Loading from "../Loading/Loading";
 import CommunityIntro from "./CommunityIntro";
-import FirstIntro from "./FirstIntro";
+import FirstIntro from "./FirstIntro/FirstIntro";
 import PopularDrink from "./PopularDrink";
 import RandomRecommendation from "./RandomRecommendation";
-import SecondIntro from "./SecondIntro";
+import SecondIntro from "./SecondIntro/SecondIntro";
 import { RecipesContext } from "../Context/RecipesContext";
 import Footer from "../Footer/Footer";
 import Error from "../error/Error";
